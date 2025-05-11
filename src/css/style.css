@@ -287,6 +287,7 @@ body {
     border-top: 1px solid #333;
     z-index: 100;
 }
+
 .menu-item {
     display: flex;
     flex-direction: column;
@@ -296,11 +297,39 @@ body {
     font-size: 12px;
     transition: all 0.3s;
 }
+
+.menu-item-notactive-card {
+    width: calc(100% - 20px);
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row; /* Изменено на row для горизонтального расположения */
+    align-items: center; /* Выравнивание по центру вертикально */
+    justify-content: center; /* Выравнивание по центру горизонтально */
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s;
+    gap: 10px; /* Расстояние между иконкой и текстом */
+}
+
 .menu-item i {
     font-size: 20px;
     margin-bottom: 3px;
 }
+
+.menu-item-notactive-card img {
+    font-size: 20px;
+    margin-bottom: 0; /* Убрано нижнее поле */
+}
+
 .menu-item.active {
+    background-color: #f0f0f0;
+    padding: 5px 8px;
+    border-radius: 10px;
+    color: #000;
+    transform: translateY(-5px);
+}
+
+.menu-item-notactive-card.active {
     background-color: #f0f0f0;
     padding: 5px 8px;
     border-radius: 10px;
@@ -584,6 +613,7 @@ body {
 .profile-header {
     text-align: center;
     margin-bottom: 10px;
+    margin-top: 20px;
 }
 
 .profile-info {
