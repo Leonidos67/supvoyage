@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SupVoyage | Mini App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="./src/css/style.css">
+    <link rel="stylesheet" href="./src/css/styleCard.css">
+    <style>
+        /* Обновлённые стили для модального окна */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: radial-gradient(#1a1a1a, #0a0a0a);
+            border-radius: 15px 15px 0 0;
+            padding: 25px;
+            width: 100%;
+            max-width: 100%;
+            box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.5);
+            transform: translateY(100%);
+            transition: all 0.3s ease;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 20px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .modal-btn {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: #fff;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+        
+        .modal-btn.close-btn {
+            background: linear-gradient(#ff6b6b, #ff8787);
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Контент вкладок -->
+    <div>
+
+        <!-- home content -->
+        <div id="home" class="tab-content active">
+            <div class="pulse-container">
+                <div class="pulse-outer"></div>
+                <div class="pulse-outer"></div>
+                <div class="pulse-outer"></div>
+                <button class="main-button" id="startButton">START</button>
+            </div>
+            <h2>Главная</h2>
+
+            <!-- Слайдер изображений с возможностью перетаскивания -->
+            <div class="image-slider" id="imageSlider">
+                <div class="slides-container">
+                    <!-- Слайд 1 -->
+                    <div class="slide active">
+                        <img src="https://i.ibb.co/3yXkwk4Q/image.png" alt="Сезонные маршруты" class="slide-image">
+                        <div class="slide-caption">
+                            <h3>Сезонные маршруты</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Слайд 2 -->
+                    <div class="slide">
+                        <img src="https://i.ibb.co/20M4fD26/image.png" alt="Экскурсии в Абхазии" class="slide-image">
+                        <div class="slide-caption">
+                            <h3>Экскурсии в Абхазии</h3>
+                        </div>
+                    </div>
+                    
+                    <!-- Слайд 3 -->
+                    <div class="slide">
+                        <img src="https://i.ibb.co/RGgggKNw/image.png" alt="Прокат сапов" class="slide-image">
+                        <div class="slide-caption">
+                            <h3>Прокат сапов</h3>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Навигационные точки -->
+                <div class="slider-dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+            
+            <!-- Статичные карточки направлений -->
+            <div class="static-cards-container">
+                <!-- Карточка Сочи -->
+                <div class="static-card sochi-card">
+                    <img src="https://i.ibb.co/V0dnG77p/image.png" alt="Сочи" class="static-card-image">
+                    <div class="static-card-overlay">
+                        <h3 class="static-card-title">Сочи</h3>
+                        <p class="static-card-description">Черноморские курорты и горные пейзажи</p>
+                    </div>
+                </div>
+                
+                <!-- Карточка Абхазия -->
+                <div class="static-card abkhazia-card">
+                    <img src="https://i.ibb.co/F4chtqW2/image.png" alt="Абхазия" class="static-card-image">
+                    <div class="static-card-overlay">
+                        <h3 class="static-card-title">Абхазия</h3>
+                        <p class="static-card-description">Уникальная природа и древняя история</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Горизонтально прокручиваемые карточки товаров -->
+            <div class="products-container">
+                <h3 class="products-title">Популярные предложения</h3>
+                <div class="products-scroll">
+                    <!-- Карточка товара 1 -->
+                    <div class="product-card">
+                        <img src="./assets/product1.jpg" alt="Товар 1" class="product-image">
+                        <div class="product-content">
+                            <h3 class="product-title">Название товара 1</h3>
+                            <p class="product-description">Краткое описание товара и его основные характеристики</p>
+                            <div class="product-footer">
+                                <span class="product-price">1 999 ₽</span>
+                                <span class="product-hashtag">#популярное</span>
+                                <img src="./assets/bookmark.png" alt="В закладки" class="product-bookmark">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Карточка товара 2 -->
+                    <div class="product-card">
+                        <img src="./assets/product2.jpg" alt="Товар 2" class="product-image">
+                        <div class="product-content">
+                            <h3 class="product-title">Название товара 2</h3>
+                            <p class="product-description">Краткое описание товара и его основные характеристики</p>
+                            <div class="product-footer">
+                                <span class="product-price">2 499 ₽</span>
+                                <span class="product-hashtag">#новинка</span>
+                                <img src="./assets/bookmark.png" alt="В закладки" class="product-bookmark">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Карточка товара 3 -->
+                    <div class="product-card">
+                        <img src="./assets/product3.jpg" alt="Товар 3" class="product-image">
+                        <div class="product-content">
+                            <h3 class="product-title">Название товара 3</h3>
+                            <p class="product-description">Краткое описание товара и его основные характеристики</p>
+                            <div class="product-footer">
+                                <span class="product-price">3 299 ₽</span>
+                                <span class="product-hashtag">#акция</span>
+                                <img src="./assets/bookmark.png" alt="В закладки" class="product-bookmark">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Карточка товара 4 -->
+                    <div class="product-card">
+                        <img src="./assets/product4.jpg" alt="Товар 4" class="product-image">
+                        <div class="product-content">
+                            <h3 class="product-title">Название товара 4</h3>
+                            <p class="product-description">Краткое описание товара и его основные характеристики</p>
+                            <div class="product-footer">
+                                <span class="product-price">1 799 ₽</span>
+                                <span class="product-hashtag">#хит</span>
+                                <img src="./assets/bookmark.png" alt="В закладки" class="product-bookmark">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- start content -->
+        <div id="start" class="tab-content">
+            <h2>Бронь сапа</h2>
+            <form id="supForm" class="booking-form">
+                <!-- Все предыдущие поля формы остаются без изменений -->
+                <div class="form-group">
+                    <input type="text" id="name" name="name" required placeholder="Введите ваше имя">
+                </div>
+                
+                <div class="form-group">
+                    <input type="tel" id="phone" name="phone" required placeholder="+7 (___) ___-____" pattern="\+7\s\(\d{3}\)\s\d{3}-\d{4}">
+                </div>
+                
+                <div class="form-group">
+                    <input type="text" id="telegram" name="telegram" required placeholder="@username в Telegram" pattern="@[a-zA-Z0-9_]{5,}">
+                </div>
+                
+                <div class="form-group">
+                    <input type="time" id="time" name="time" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="guest-count">Количество гостей:</label>
+                    <div class="slider-container">
+                        <input type="range" id="guest-count" name="guest-count" min="1" max="20" value="1" class="slider">
+                        <div class="slider-value">1</div>
+                    </div>
+                </div>
+
+                <div id="guest-fields-container">
+                    <!-- Здесь будут динамически добавляться поля -->
+                </div>
+                
+                <div class="form-group">
+                    <label for="duration">Продолжительность:</label>
+                    <select id="duration" name="duration" required>
+                        <option value="">Выберите время</option>
+                        <option value="1">1 час</option>
+                        <option value="2">2 часа</option>
+                        <option value="3">3 часа</option>
+                    </select>
+                </div>
+                
+                <!-- Обновлённый календарь недели -->
+                <div class="form-group week-calendar-container">
+                    <div class="week-navigation">
+                        <button type="button" class="week-nav prev-week">&lt;</button>
+                        <div class="week-range">{week}</div>
+                        <button type="button" class="week-nav next-week">&gt;</button>
+                    </div>
+                    <div class="week-days-container">
+                        <div class="week-days">
+                            <!-- Дни будут добавлены через JavaScript -->
+                        </div>
+                    </div>
+                    <input type="hidden" id="date" name="date" required>
+                </div>
+                
+                <button type="submit" class="submit-btn">Забронировать</button>
+            </form>
+        </div>
+
+        <!-- menu content -->
+        <div id="menu" class="tab-content">
+            <h2>Настройки</h2>
+            <p class="tab-text">Здесь будут настройки приложения</p>
+        </div>
+
+    </div>
+
+    <!-- Модальное окно -->
+    <div class="modal-overlay" id="startModal">
+        <div class="modal-content">
+            <h3 class="modal-title">Бронь сапа</h3>
+            <p style="margin-bottom: 20px">Вы можете заполнить форму, внести предоплату и уже через час получить сап</p>
+            <div class="modal-buttons">
+                <button class="modal-btn" id="selfFillBtn" data-tab="start">Заполню поля сам</button>
+                <button class="modal-btn" id="helpFillBtn">Нужна помощь в бронировании</button>
+                <script>
+                    
+                </script>
+                <button class="modal-btn close-btn" id="closeModalBtn">Отменить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Нижнее меню -->
+    <nav class="bottom-menu">
+        <a href="#" class="menu-item active" data-tab="home">
+            <i class="fas fa-home"></i>
+            <span>Главная</span>
+        </a>
+        <a href="#" class="menu-item" data-tab="start">
+            <i class="fas fa-play"></i>
+            <span>Старт</span>
+        </a>
+        <a href="#" class="menu-item" data-tab="menu">
+            <i class="fa-solid fa-bars"></i>
+            <span>Меню</span>
+        </a>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuItems = document.querySelectorAll('.menu-item');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const startButton = document.getElementById('startButton');
+            const supForm = document.getElementById('supForm');
+            const startModal = document.getElementById('startModal');
+            const selfFillBtn = document.getElementById('selfFillBtn');
+            const helpFillBtn = document.getElementById('helpFillBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+
+            // Функция переключения вкладок
+            function switchTab(tabId) {
+                menuItems.forEach(i => i.classList.remove('active'));
+                tabContents.forEach(tab => tab.classList.remove('active'));
+                
+                const menuItem = document.querySelector(`.menu-item[data-tab="${tabId}"]`);
+                if (menuItem) menuItem.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            }
+
+            // Функция закрытия модального окна
+            function closeModal() {
+                startModal.classList.remove('active');
+            }
+
+            // Переключение вкладок через меню
+            menuItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    switchTab(this.getAttribute('data-tab'));
+                });
+            });
+
+            // Открытие модального окна при клике на START
+            startButton.addEventListener('click', function() {
+                startModal.classList.add('active');
+            });
+
+            // Закрытие модального окна
+            closeModalBtn.addEventListener('click', closeModal);
+
+            // Закрытие при клике вне модального окна
+            startModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+
+            // Выбор "Заполню поля сам"
+            selfFillBtn.addEventListener('click', function() {
+                closeModal();
+                switchTab(this.getAttribute('data-tab'));
+            });
+
+            // Выбор "Помощь менеджера в Telegram"
+            helpFillBtn.addEventListener('click', function() {
+                closeModal();
+                window.open('https://t.me/leonidsupv', '_blank');
+            });
+
+            // Обработка формы бронирования
+            supForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Бронирование отправлено! Мы свяжемся с вами для подтверждения.');
+                this.reset();
+            });
+        });
+    </script>
+    <script src="./src/js/formScripts.js"></script>
+    <script src="./src/js/slider.js"></script>
+</body>
+</html>
