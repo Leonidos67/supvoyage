@@ -210,7 +210,6 @@ body {
 .tab-content {
     display: none;
     padding: 20px;
-    margin-top: 40px;
     animation: fadeIn 0.5s;
 }
 .tab-content.active {
