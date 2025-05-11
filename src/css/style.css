@@ -308,6 +308,7 @@ body {
     color: #fff;
     text-decoration: none;
     transition: all 0.3s;
+    padding: 200px;
     gap: 10px; /* Расстояние между иконкой и текстом */
 }
 
