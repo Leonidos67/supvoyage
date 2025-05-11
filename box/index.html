@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SupVoyage | Mini App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/src/css/style.css">
+    <link rel="stylesheet" href="/src/css/styleCard.css">
+</head>
+<body>
+
+    <div>
+
+        <div id="home" class="tab-content active">
+            
+            <h2>Скидки и промокоды</h2>
+
+            <div class="profile-header bc-first-slide">
+
+                <div class="profile-info" onclick="window.location.href='./box/'">
+                    <div class="profile-text">
+                        <div class="name-edit-wrapper">
+                            <h3 id="username">Скидки и промокоды</h3>
+                        </div>
+                    </div>
+                    <div class="profile-icon">
+                        <img src="./assets/promocode.png" width="24px" height="24px" alt="Скидки и промокоды">
+                    </div>
+                </div>
+                
+                <div class="profile-info">
+                    <div class="profile-text">
+                        <div class="name-edit-wrapper">
+                            <h3 id="username">Чат поддержки</h3>
+                        </div>
+                    </div>
+                    <div class="profile-icon">
+                        <img src="./assets/supports.png" width="24px" height="24px" alt="Чат поддержки">
+                    </div>
+                </div>
+            
+            </div>
+            
+            <div class="products-container">
+                <div class="products-scroll">
+                    
+                    <div class="product-card">
+                        <img src="./assets/product1.jpg" alt="Товар 1" class="product-image">
+                        <div class="product-content">
+                            <h3 class="product-title">Название товара 1</h3>
+                            <p class="product-description">Краткое описание товара и его основные характеристики</p>
+                            <div class="product-footer">
+                                <span class="product-price">1 999 ₽</span>
+                                <span class="product-hashtag">#популярное</span>
+                                <img src="./assets/bookmark.png" alt="В закладки" class="product-bookmark">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="./assets/product2.jpg" alt="Товар 2" class="product-image">
+                        <div class="product-content">
+                            <h3 class="product-title">Название товара 2</h3>
+                            <p class="product-description">Краткое описание товара и его основные характеристики</p>
+                            <div class="product-footer">
+                                <span class="product-price">2 499 ₽</span>
+                                <span class="product-hashtag">#новинка</span>
+                                <img src="./assets/bookmark.png" alt="В закладки" class="product-bookmark">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="./assets/product3.jpg" alt="Товар 3" class="product-image">
+                        <div class="product-content">
+                            <h3 class="product-title">Название товара 3</h3>
+                            <p class="product-description">Краткое описание товара и его основные характеристики</p>
+                            <div class="product-footer">
+                                <span class="product-price">3 299 ₽</span>
+                                <span class="product-hashtag">#акция</span>
+                                <img src="./assets/bookmark.png" alt="В закладки" class="product-bookmark">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="./assets/product4.jpg" alt="Товар 4" class="product-image">
+                        <div class="product-content">
+                            <h3 class="product-title">Название товара 4</h3>
+                            <p class="product-description">Краткое описание товара и его основные характеристики</p>
+                            <div class="product-footer">
+                                <span class="product-price">1 799 ₽</span>
+                                <span class="product-hashtag">#хит</span>
+                                <img src="./assets/bookmark.png" alt="В закладки" class="product-bookmark">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Модальное окно -->
+    <div class="modal-overlay" id="startModal">
+        <div class="modal-content">
+            <h3 class="modal-title">Бронь сапа</h3>
+            <p style="margin-bottom: 20px">Вы можете заполнить форму, внести предоплату и уже через час получить сап</p>
+            <div class="modal-buttons">
+                <button class="modal-btn" id="selfFillBtn" data-tab="start">Заполню поля сам</button>
+                <button class="modal-btn" id="helpFillBtn">Нужна помощь в бронировании</button>
+                <script>
+                    
+                </script>
+                <button class="modal-btn close-btn" id="closeModalBtn">Отменить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Нижнее меню -->
+    <nav class="bottom-menu">
+        <a href="/" class="menu-item-notactive-card active">
+            <img src="/assets/arrow.png" alt="">
+            <span style="font-size: 20px;">Вернуться назад</span>
+        </a>
+    </nav>
+
+    <script>
+        document.getElementById('supForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Показать анимацию загрузки
+            const form = this;
+            const loadingOverlay = form.querySelector('.loading-overlay');
+            const successMessage = form.querySelector('.success-message');
+            const formGroups = form.querySelectorAll('.form-group');
+            const submitBtn = form.querySelector('.submit-btn');
+            
+            // Скрыть все элементы формы, кроме overlay
+            formGroups.forEach(group => group.style.display = 'none');
+            submitBtn.style.display = 'none';
+            loadingOverlay.style.display = 'flex';
+            
+            // Через 3 секунды скрыть загрузку и показать сообщение об успехе
+            setTimeout(function() {
+                loadingOverlay.style.display = 'none';
+                successMessage.style.display = 'block';
+                
+                // Очистить форму (опционально)
+                form.reset();
+            }, 3000);
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuItems = document.querySelectorAll('.menu-item');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const startButton = document.getElementById('startButton');
+            const supForm = document.getElementById('supForm');
+            const startModal = document.getElementById('startModal');
+            const selfFillBtn = document.getElementById('selfFillBtn');
+            const helpFillBtn = document.getElementById('helpFillBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+
+            // Функция переключения вкладок
+            function switchTab(tabId) {
+                menuItems.forEach(i => i.classList.remove('active'));
+                tabContents.forEach(tab => tab.classList.remove('active'));
+                
+                const menuItem = document.querySelector(`.menu-item[data-tab="${tabId}"]`);
+                if (menuItem) menuItem.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            }
+
+            // Функция закрытия модального окна
+            function closeModal() {
+                startModal.classList.remove('active');
+            }
+
+            // Переключение вкладок через меню
+            menuItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    switchTab(this.getAttribute('data-tab'));
+                });
+            });
+
+            // Открытие модального окна при клике на START
+            startButton.addEventListener('click', function() {
+                startModal.classList.add('active');
+            });
+
+            // Закрытие модального окна
+            closeModalBtn.addEventListener('click', closeModal);
+
+            // Закрытие при клике вне модального окна
+            startModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+
+            // Выбор "Заполню поля сам"
+            selfFillBtn.addEventListener('click', function() {
+                closeModal();
+                switchTab(this.getAttribute('data-tab'));
+            });
+
+            // Выбор "Помощь менеджера в Telegram"
+            helpFillBtn.addEventListener('click', function() {
+                closeModal();
+                window.open('https://t.me/leonidsupv', '_blank');
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Получаем элементы
+            const usernameEl = document.getElementById('username');
+            const editBtn = document.querySelector('.edit-btn');
+            const editForm = document.querySelector('.edit-name-form');
+            const nameInput = document.getElementById('name-input');
+            const saveBtn = document.querySelector('.save-btn');
+            const cancelBtn = document.querySelector('.cancel-btn');
+            
+            // Загружаем имя из localStorage
+            const savedName = localStorage.getItem('supVoyageUsername');
+            if (savedName) {
+                usernameEl.textContent = savedName;
+            }
+            
+            // Обработчик клика на кнопку редактирования
+            editBtn.addEventListener('click', function() {
+                // Показываем форму редактирования
+                usernameEl.style.display = 'none';
+                editBtn.style.display = 'none';
+                editForm.style.display = 'flex';
+                
+                // Устанавливаем текущее имя в инпут
+                nameInput.value = usernameEl.textContent;
+                nameInput.focus();
+            });
+            
+            // Сохранение имени
+            saveBtn.addEventListener('click', function() {
+                const newName = nameInput.value.trim();
+                if (newName) {
+                    usernameEl.textContent = newName;
+                    localStorage.setItem('supVoyageUsername', newName);
+                }
+                hideEditForm();
+            });
+            
+            // Отмена редактирования
+            cancelBtn.addEventListener('click', hideEditForm);
+            
+            // Сохранение при нажатии Enter
+            nameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    saveBtn.click();
+                }
+            });
+            
+            // Функция скрытия формы редактирования
+            function hideEditForm() {
+                usernameEl.style.display = 'block';
+                editBtn.style.display = 'block';
+                editForm.style.display = 'none';
+            }
+        });
+    </script>
+    <script src="./src/js/formScripts.js"></script>
+    <script src="./src/js/slider.js"></script>
+</body>
+</html>
