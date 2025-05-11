@@ -16,6 +16,13 @@ body {
     overflow-x: hidden;
 }
 
+.bc-first-slide {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px 10px;
+    margin-top: 2px;
+    border-radius: 30px;
+}
+
 /* Стили для модального окна */
         .modal-overlay {
             position: fixed;
@@ -204,6 +211,10 @@ body {
     50% {
         font-size: 20px;
     }
+}
+
+.bc-menu-icon {
+    color: linear-gradient(#fff, #000);
 }
 
 /* Контент */
@@ -529,5 +540,181 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+    
+.loading-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.success-message {
+    text-align: center;
+    padding: 20px;
+    color: #fff;
+}
+
+.booking-form {
+    position: relative;
+}
 
 
+
+/* MENU CONTENT */
+/* Стили для профиля */
+.profile-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    width: calc(100vw - 40px);
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+.profile-ssu-info {
+    display: flex;
+    align-items: center;
+    width: calc(100vw - 40px);
+    gap: 12px;
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+    overflow: hidden;
+}
+
+.profile-text {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.name-edit-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.profile-text h3 {
+    margin: 0;
+    color: white;
+    font-size: 16px;
+}
+
+.edit-btn {
+    background: none;
+    border: none;
+    color: #a777e3;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.edit-btn:hover {
+    transform: scale(1.1);
+    color: #6e8efb;
+}
+
+.edit-btn:active {
+    transform: scale(0.95);
+}
+
+.profile-text p {
+    margin: 3px 0 0;
+    color: #aaa;
+    font-size: 13px;
+}
+
+.text-version {
+    color: #f0f0f0;
+    font-size: 14px;
+}
+
+/* Стили для редактирования имени */
+.name-edit-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.edit-name-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    width: calc(100vw - 40px);
+}
+
+.name-input {
+    flex-grow: 1;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid #a777e3;
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+.save-btn, .cancel-btn {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.save-btn {
+    background: #a777e3;
+    color: white;
+}
+
+.cancel-btn {
+    background: rgba(255,255,255,0.1);
+    color: #aaa;
+}
+
+.save-btn:hover {
+    background: #6e8efb;
+}
+
+.cancel-btn:hover {
+    background: rgba(255,255,255,0.2);
+}
