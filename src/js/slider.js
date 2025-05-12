@@ -117,13 +117,19 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
- // Генерация 50 частиц
- const particlesBg = document.getElementById('particles-js');
- for (let i = 0; i < 50; i++) {
+// Генерация дополнительных частиц
+const particlesBg = document.getElementById('particles-js');
+for (let i = 0; i < 30; i++) {
     const particle = document.createElement('span');
+    particle.className = 'particle';
     particle.style.left = `${Math.random() * 100}%`;
     particle.style.top = `${Math.random() * 100}%`;
-    particle.style.animationDuration = `${5 + Math.random() * 10}s`;
-    particle.style.animationName = `float${Math.floor(Math.random() * 3) + 1}`;
+    particle.style.animation = `float${Math.floor(Math.random() * 2) + 1} ${8 + Math.random() * 10}s linear infinite`;
     particlesBg.appendChild(particle);
 }
+
+// Интерактивность при наведении
+document.querySelector('.particles-bg').addEventListener('mousemove', (e) => {
+    e.target.style.setProperty('--x', `${e.clientX}px`);
+    e.target.style.setProperty('--y', `${e.clientY}px`);
+});
