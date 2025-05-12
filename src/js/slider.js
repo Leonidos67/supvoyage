@@ -115,3 +115,15 @@ document.addEventListener('DOMContentLoaded', function() {
         startAutoplay();
     }
 });
+
+
+ // Генерация 50 частиц
+ const particlesBg = document.getElementById('particles-js');
+ for (let i = 0; i < 50; i++) {
+    const particle = document.createElement('span');
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.top = `${Math.random() * 100}%`;
+    particle.style.animationDuration = `${5 + Math.random() * 10}s`;
+    particle.style.animationName = `float${Math.floor(Math.random() * 3) + 1}`;
+    particlesBg.appendChild(particle);
+}

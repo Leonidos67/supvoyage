@@ -4,9 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <img src="./sticker.gif" alt="Animated Sticker" width="200">
+    
+  <div class="particles-bg" id="particles-js"></div>
+  <div class="app-content">
+    <input type="text" placeholder="Теперь можно кликать">
+  </div>
+
+    <script>
+        // Генерация 50 частиц
+            const particlesBg = document.getElementById('particles-js');
+            for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('span');
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.animationDuration = `${5 + Math.random() * 10}s`;
+            particle.style.animationName = `float${Math.floor(Math.random() * 3) + 1}`;
+            particlesBg.appendChild(particle);
+        }
+    </script>
 </body>
 </html>
