@@ -220,73 +220,125 @@
         <!-- start content -->
         <div id="start" class="tab-content">
             <h2>Бронь сапа</h2>
-            <form id="supForm" class="booking-form">
-                
-                <!--<div class="form-group">
-                    <input type="text" id="name" name="name" required placeholder="Введите ваше имя">
-                </div>
-                
-                <div class="form-group">
-                    <input type="tel" id="phone" name="phone" required placeholder="+7 (___) ___-____" pattern="\+7\s\(\d{3}\)\s\d{3}-\d{4}">
-                </div>
-                
-                <div class="form-group">
-                    <input type="text" id="telegram" name="telegram" required placeholder="@username в Telegram" pattern="@[a-zA-Z0-9_]{5,}">
-                </div>
 
-                <div class="form-group">
-                    <input type="text" id="client" name="client" required placeholder="Количество гостей">
-                </div>
+            <div class="profile-header bc-first-slide">
+                <form id="supForm" class="booking-form">
 
-                <div class="form-group">
-                    <input type="text" id="sup" name="sup" required placeholder="Количество сапов">
-                </div>
-                
-                <div class="form-group">
-                    <select id="duration" name="duration" required>
-                        <option value="">Время</option>
-                        <option value="1">1 час</option>
-                        <option value="2">2 часа</option>
-                        <option value="3">3 часа</option>
-                        <option value="4">4 час</option>
-                        <option value="5">5 часа</option>
-                        <option value="6">6 часа</option>
-                        <option value="12">Весь день</option>
-                        <option value="24">Сутки</option>
-                        <option value="24-2">Двое суток</option>
-                        <option value="24-3">Трое суток</option>
-                        <option value="24-7">> 3 суток</option>
-                    </select>
-                </div>-->
-                
-                <!-- Обновлённый календарь недели -->
-                <div class="form-group week-calendar-container">
-                    <div class="week-navigation">
-                        <button type="button" class="week-nav prev-week">&lt;</button>
-                        <div class="week-range">{week}</div>
-                        <button type="button" class="week-nav next-week">&gt;</button>
-                    </div>
-                    <div class="week-days-container">
-                        <div class="week-days">
-                            <!-- Дни будут добавлены через JavaScript -->
+                    <style>
+                        .input-bc-form {
+                            background-color: rgba(255, 255, 255, 0.1);
+                        }
+                    </style>
+
+                    <!-- ИМЯ -->
+                    <div class="profile-info-form">
+                        <div class="form-group">
+                            <div class="name-edit-wrapper">
+                                <h4 style="padding-bottom: 5px;">Имя</h4>
+                            </div>
+                            <input class="input-bc-form" type="text" id="name" name="name" required placeholder="">
                         </div>
                     </div>
-                    <input type="hidden" id="date" name="date" required>
-                </div>
+
+                    <!-- ТЕЛЕФОН -->
+                    <div class="profile-info-form">
+                        <div class="form-group">
+                            <div class="name-edit-wrapper">
+                                <h4 style="padding-bottom: 5px;">Номер телефона</h4>
+                            </div>
+                            <input class="input-bc-form" type="tel" id="phone" name="phone" required placeholder="+7 " pattern="\+7\s\(\d{3}\)\s\d{3}-\d{4}">
+                        </div>
+                    </div>
+
+                    <!-- TELEGRAM -->
+                    <div class="profile-info-form">
+                        <div class="form-group">
+                            <div class="name-edit-wrapper">
+                                <h4 style="padding-bottom: 5px;">Telegram</h4>
+                            </div>
+                            <input class="input-bc-form" type="text" id="telegram" name="telegram" required placeholder="@" pattern="@[a-zA-Z0-9_]{5,}">
+                        </div>
+                    </div>
+
+                    <!-- КОЛ-ВО ГОСТЕЙ 
+                    <div class="profile-info-form">
+                        <div class="form-group">
+                            <div class="name-edit-wrapper">
+                                <h4 style="padding-bottom: 5px;">Количество гостей</h4>
+                            </div>
+                            <input class="input-bc-form" type="text" id="client" name="client" required placeholder="">
+                        </div>
+                    </div>-->
+
+                    <!-- КОЛ-ВО САПОВ 
+                    <div class="profile-info-form">
+                        <div class="form-group">
+                            <div class="name-edit-wrapper">
+                                <h4 style="padding-bottom: 5px;">Количество сапов</h4>
+                            </div>
+                            <input class="input-bc-form" type="text" id="sup" name="sup" required placeholder="">
+                        </div>
+                    </div>-->
+
+                    <!-- ВРЕМЯ 
+                    <div class="profile-info-form">
+                        <div class="form-group">
+                            <div class="name-edit-wrapper">
+                                <h4 style="padding-bottom: 5px;">Время</h4>
+                            </div>
+                            <select id="duration" name="duration" required>
+                                <option value=""></option>
+                                <option value="1">1 час</option>
+                                <option value="2">2 часа</option>
+                                <option value="3">3 часа</option>
+                                <option value="4">4 час</option>
+                                <option value="5">5 часа</option>
+                                <option value="6">6 часа</option>
+                                <option value="12">Весь день</option>
+                                <option value="24">Сутки</option>
+                                <option value="24-2">Двое суток</option>
+                                <option value="24-3">Трое суток</option>
+                                <option value="24-7">> 3 суток</option>
+                            </select>
+                        </div>
+                    </div>-->
+
+                    <!-- КАЛЕНДАРЬ -->
+                    <div class="profile-info-form">
+                        <div class="form-group week-calendar-container">
+                            <div class="name-edit-wrapper">
+                                <h4 style="padding-bottom: 5px;">День</h4>
+                            </div>
+                            <div class="week-navigation">
+                                <button type="button" class="week-nav prev-week">&lt;</button>
+                                <div class="week-range">{week}</div>
+                                <button type="button" class="week-nav next-week">&gt;</button>
+                            </div>
+                            <div class="week-days-container">
+                                <div class="week-days"></div>
+                            </div>
+                            <input type="hidden" id="date" name="date" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Забронировать</button>
                 
-                <button type="submit" class="submit-btn">Забронировать</button>
-                
-                <!-- Элементы для состояния загрузки и успеха -->
-                <div class="loading-overlay" style="display: none;">
-                    <div class="loading-spinner"></div>
-                </div>
-                <div class="success-message" style="display: none;">
-                    <h3>Форма успешно отправлена!</h3>
-                    <p>Мы свяжемся с вами в ближайшее время.</p>
-                    <img style="padding: 24px;" src="./assets/gif/angry-duck.gif" width="148px" height="148px" alt="Angry Duck">
-                    <button class="modal-btn" data-tab="/">В профиль</button>
-                </div>
-            </form>
+                    <!-- Элементы для состояния загрузки и успеха -->
+                    <div>
+                        <div class="loading-overlay" style="display: none;">
+                            <div class="loading-spinner"></div>
+                        </div>
+                        <div class="success-message" style="display: none;">
+                            <h3>Форма успешно отправлена!</h3>
+                            <p>Мы свяжемся с вами в ближайшее время.</p>
+                            <img style="padding: 24px;" src="./assets/gif/angry-duck.gif" width="148px" height="148px" alt="Angry Duck">
+                            <button class="modal-btn" onclick="window.location.href='./'">На главную</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
         </div>
 
         <!-- menu content -->
@@ -314,7 +366,7 @@
                 <div class="edit-name-form" style="display: none;">
                     <input type="text" id="name-input" class="name-input">
                     <button class="save-btn">Сохранить</button>
-                    <button class="cancel-btn">Отмена</button>
+                    <button class="cancel-btn">Х</button>
                 </div>
             
             </div>
@@ -373,15 +425,15 @@
     <nav class="bottom-menu">
         <a href="#" class="menu-item active" data-tab="home">
             <i class="fas fa-home"></i>
-            <span>Главная</span>
+            <span>home</span>
         </a>
         <a href="#" class="menu-item" data-tab="start">
             <i class="fas fa-play bc-menu-icon"></i>
-            <span>Старт</span>
+            <span>start</span>
         </a>
         <a href="#" class="menu-item" data-tab="menu">
             <i class="fa-solid fa-bars"></i>
-            <span>Меню</span>
+            <span>menu</span>
         </a>
     </nav>
 
