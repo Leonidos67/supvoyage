@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сканер разрешенных QR-кодов</title>
+    <title>Сканер QR-кодов</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,11 +12,6 @@
             padding: 20px;
             text-align: center;
         }
-        
-        h1 {
-            color: #333;
-        }
-        
         #scanner-container {
             position: relative;
             width: 100%;
@@ -26,245 +21,159 @@
             border-radius: 8px;
             overflow: hidden;
         }
-        
         #video {
             width: 100%;
             display: block;
         }
-        
-        #scan-region {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70%;
-            height: 70%;
-            border: 3px dashed rgba(255, 255, 255, 0.5);
-            box-sizing: border-box;
-            pointer-events: none;
-        }
-        
         #result {
-            margin: 20px 0;
             padding: 15px;
+            margin: 20px 0;
             border-radius: 5px;
             font-weight: bold;
         }
-        
         .valid {
             background-color: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
         }
-        
         .invalid {
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
-        
         button {
             background-color: #4CAF50;
             color: white;
             border: none;
             padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 10px 2px;
+            margin: 10px;
             cursor: pointer;
             border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: #45a049;
-        }
-        
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-        
-        #allowed-codes {
-            margin: 20px auto;
-            text-align: left;
-            max-width: 500px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <h1>Сканер разрешенных QR-кодов</h1>
-    
+    <h1>Сканер QR-кодов</h1>
     <div id="scanner-container">
         <video id="video" playsinline></video>
-        <div id="scan-region"></div>
     </div>
-    
     <div id="result">Готов к сканированию...</div>
-    
-    <button id="start-button">Начать сканирование</button>
-    <button id="stop-button" disabled>Остановить сканирование</button>
-    
-    <div id="allowed-codes">
-        <h3>Разрешенные коды:</h3>
-        <ul id="allowed-codes-list">
-            <!-- Список будет заполнен JavaScript -->
-        </ul>
-    </div>
-    
+    <button id="start-btn">Начать сканирование</button>
+    <button id="stop-btn" disabled>Остановить</button>
+
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
     <script>
-        // Элементы DOM
         const video = document.getElementById('video');
         const resultDiv = document.getElementById('result');
-        const startButton = document.getElementById('start-button');
-        const stopButton = document.getElementById('stop-button');
-        const allowedCodesList = document.getElementById('allowed-codes-list');
+        const startBtn = document.getElementById('start-btn');
+        const stopBtn = document.getElementById('stop-btn');
         
-        // Состояние сканера
+        // Белый список кодов с улучшенной обработкой
+        const allowedCodes = {
+            "EMP2023-001": "Сотрудник: Иван Петров (Отдел разработки)",
+            "GUEST-7890": "Гость: ООО 'Технологии будущего'"
+        };
+
+        // Более гибкая проверка кода
+        function checkCode(code) {
+            // Удаляем возможные пробелы в начале/конце
+            code = code.trim();
+            
+            // Проверяем точное совпадение
+            if (allowedCodes[code]) {
+                return { valid: true, message: allowedCodes[code] };
+            }
+            
+            // Дополнительные проверки при необходимости
+            if (code.startsWith("EMP") && !code.includes(" ")) {
+                return { valid: false, message: "Формат EMP-кода верный, но код не зарегистрирован" };
+            }
+            
+            return { valid: false, message: "Неизвестный QR-код" };
+        }
+
         let stream = null;
         let scanning = false;
-        let animationFrameId = null;
-        
-        // Белый список разрешенных QR-кодов
-        const allowedQRCodes = {
-            "EMP2023-001": "Сотрудник: Иван Петров (Отдел разработки)",
-            "GUEST-7890": "Гость: ООО 'Технологии будущего'",
-            "VIP-ACCESS": "VIP доступ в закрытую зону",
-            "WAREHOUSE-5": "Доступ на склад №5",
-            "ADMIN-777": "Административный доступ"
-        };
-        
-        // Заполняем список разрешенных кодов
-        function populateAllowedCodesList() {
-            allowedCodesList.innerHTML = '';
-            for (const [code, description] of Object.entries(allowedQRCodes)) {
-                const li = document.createElement('li');
-                li.innerHTML = `<strong>${code}</strong>: ${description}`;
-                allowedCodesList.appendChild(li);
-            }
-        }
-        
-        // Начать сканирование
-        startButton.addEventListener('click', async () => {
+
+        startBtn.addEventListener('click', async () => {
             try {
-                resultDiv.textContent = "Инициализация камеры...";
-                resultDiv.className = '';
-                
                 stream = await navigator.mediaDevices.getUserMedia({ 
                     video: { 
-                        facingMode: 'environment' // Используем заднюю камеру
+                        facingMode: 'environment',
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
                     } 
                 });
                 
                 video.srcObject = stream;
                 await video.play();
                 
-                startButton.disabled = true;
-                stopButton.disabled = false;
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
                 scanning = true;
-                
                 resultDiv.textContent = "Сканирование...";
+                resultDiv.className = "";
                 
-                scanQRCode();
+                scanFrame();
             } catch (err) {
-                console.error("Ошибка при доступе к камере:", err);
-                resultDiv.textContent = "Ошибка: Не удалось получить доступ к камере";
-                resultDiv.className = 'invalid';
+                resultDiv.textContent = "Ошибка: " + err.message;
+                resultDiv.className = "invalid";
             }
         });
-        
-        // Остановить сканирование
-        stopButton.addEventListener('click', () => {
-            stopScanner();
-            resultDiv.textContent = "Сканирование остановлено";
-            resultDiv.className = '';
-        });
-        
-        // Функция остановки сканера
-        function stopScanner() {
+
+        stopBtn.addEventListener('click', () => {
             if (stream) {
                 stream.getTracks().forEach(track => track.stop());
                 video.srcObject = null;
             }
-            
-            startButton.disabled = false;
-            stopButton.disabled = true;
             scanning = false;
-            
-            if (animationFrameId) {
-                cancelAnimationFrame(animationFrameId);
-                animationFrameId = null;
-            }
-        }
-        
-        // Сканирование QR-кода
-        function scanQRCode() {
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            resultDiv.textContent = "Сканирование остановлено";
+        });
+
+        function scanFrame() {
             if (!scanning) return;
             
             const canvas = document.createElement('canvas');
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
-            const context = canvas.getContext('2d');
+            const ctx = canvas.getContext('2d');
             
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
             
             try {
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
                 const code = jsQR(imageData.data, imageData.width, imageData.height, {
                     inversionAttempts: "dontInvert",
                 });
                 
                 if (code) {
-                    processScannedCode(code.data);
+                    const check = checkCode(code.data);
+                    resultDiv.textContent = check.valid 
+                        ? `Доступ разрешен: ${check.message}` 
+                        : `Отказано: ${check.message}`;
+                    resultDiv.className = check.valid ? "valid" : "invalid";
+                    
+                    // Автоостановка после распознавания
+                    setTimeout(() => {
+                        stopBtn.click();
+                    }, 3000);
                 } else {
-                    animationFrameId = requestAnimationFrame(scanQRCode);
+                    requestAnimationFrame(scanFrame);
                 }
             } catch (e) {
-                console.error("Ошибка при сканировании:", e);
-                animationFrameId = requestAnimationFrame(scanQRCode);
+                console.error("Ошибка сканирования:", e);
+                requestAnimationFrame(scanFrame);
             }
         }
-        
-        // Обработка отсканированного кода
-        function processScannedCode(code) {
-            if (allowedQRCodes[code]) {
-                // Код в белом списке
-                resultDiv.textContent = `Доступ разрешен: ${allowedQRCodes[code]}`;
-                resultDiv.className = 'valid';
-                
-                // Здесь можно добавить дополнительные действия для разрешенных кодов
-                // Например, перенаправление, сохранение в базу данных и т.д.
-                console.log(`Разрешенный код сканирован: ${code}`);
-                
-            } else {
-                // Код не в белом списке
-                resultDiv.textContent = `Отказано в доступе: код "${code}" не найден в списке разрешенных`;
-                resultDiv.className = 'invalid';
-            }
-            
-            // Останавливаем сканирование после обнаружения кода
-            stopScanner();
-            
-            // Через 5 секунд разрешаем новое сканирование
-            setTimeout(() => {
-                resultDiv.textContent = "Готов к сканированию...";
-                resultDiv.className = '';
-            }, 5000);
-        }
-        
-        // Инициализация при загрузке страницы
+
+        // Проверка поддержки API
         window.addEventListener('DOMContentLoaded', () => {
-            populateAllowedCodesList();
-            
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                resultDiv.textContent = "Ваш браузер не поддерживает доступ к камере или вы используете небезопасный контекст (HTTP вместо HTTPS).";
-                startButton.disabled = true;
+            if (!navigator.mediaDevices?.getUserMedia) {
+                resultDiv.textContent = "Ваш браузер не поддерживает доступ к камере";
+                resultDiv.className = "invalid";
+                startBtn.disabled = true;
             }
         });
     </script>
