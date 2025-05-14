@@ -681,6 +681,24 @@ body {
     margin: 15px 0;
 }
 
+.profile-missions {
+    display: flex;
+    align-items: center;
+    width: calc(100vw - 40px);
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    margin: 15px 0;
+}
+
+.profile-missions-sloy {
+    background: linear-gradient(-20deg, #493e02, 40%, #325c04);
+    padding: 12px;
+    margin-top: 0px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
 .profile-news {
     position: absolute;
     display: flex;
@@ -867,4 +885,9 @@ body {
 }
 .scroll-down-news-btn i {
     font-size: 20px;
+}
+
+/**/
+.img-missions {
+    width: 100%;
 }
