@@ -3,125 +3,269 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Particles Background</title>
+    <title>Сканер разрешенных QR-кодов</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        .particles-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-            background: #000;
-        }
-        
-        .particles-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
-        
-        .particles-bg::before {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 20%),
-                radial-gradient(circle at 80% 70%, rgba(255,255,255,0.1) 0%, transparent 20%);
-        }
-        
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(255,255,255,0.7);
-            border-radius: 50%;
-            animation: float linear infinite;
-        }
-        
-        .particle:nth-child(1) {
-            top: 10%;
-            left: 20%;
-            animation: float1 15s linear infinite;
-        }
-        
-        .particle:nth-child(2) {
-            top: 80%;
-            left: 70%;
-            animation: float2 12s linear infinite;
-        }
-        
-        @keyframes float1 {
-            0% { transform: translate(0,0); opacity:0; }
-            50% { transform: translate(100px,-150px); opacity:1; }
-            100% { transform: translate(200px,-300px); opacity:0; }
-        }
-        
-        @keyframes float2 {
-            0% { transform: translate(0,0); opacity:0; }
-            50% { transform: translate(-120px,-100px); opacity:1; }
-            100% { transform: translate(-200px,-250px); opacity:0; }
-        }
-        
-        .app-content {
-            position: relative;
-            z-index: 2;
-            width: 320px;
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            text-align: center;
         }
         
-        .app-container {
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-            padding: 20px;
+        h1 {
+            color: #333;
         }
         
-        input {
-            width: 100%;
-            padding: 10px;
-            background: rgba(255,255,255,0.8);
-            border: none;
-            border-radius: 4px;
+        #scanner-container {
             position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            border: 2px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        #video {
+            width: 100%;
+            display: block;
+        }
+        
+        #scan-region {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            height: 70%;
+            border: 3px dashed rgba(255, 255, 255, 0.5);
+            box-sizing: border-box;
+            pointer-events: none;
+        }
+        
+        #result {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .valid {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .invalid {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        #allowed-codes {
+            margin: 20px auto;
+            text-align: left;
+            max-width: 500px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <div class="particles-container">
-        <div class="particles-bg" id="particles-js">
-            <span class="particle"></span>
-            <span class="particle"></span>
-        </div>
-        <div class="app-content">
-            <div class="app-container">
-                <input type="text" placeholder="Теперь можно кликать">
-            </div>
-        </div>
+    <h1>Сканер разрешенных QR-кодов</h1>
+    
+    <div id="scanner-container">
+        <video id="video" playsinline></video>
+        <div id="scan-region"></div>
     </div>
     
+    <div id="result">Готов к сканированию...</div>
+    
+    <button id="start-button">Начать сканирование</button>
+    <button id="stop-button" disabled>Остановить сканирование</button>
+    
+    <div id="allowed-codes">
+        <h3>Разрешенные коды:</h3>
+        <ul id="allowed-codes-list">
+            <!-- Список будет заполнен JavaScript -->
+        </ul>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
     <script>
-        // Генерация дополнительных частиц
-        const particlesBg = document.getElementById('particles-js');
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('span');
-            particle.className = 'particle';
-            particle.style.left = `${Math.random() * 100}%`;
-            particle.style.top = `${Math.random() * 100}%`;
-            particle.style.animation = `float${Math.floor(Math.random() * 2) + 1} ${8 + Math.random() * 10}s linear infinite`;
-            particlesBg.appendChild(particle);
+        // Элементы DOM
+        const video = document.getElementById('video');
+        const resultDiv = document.getElementById('result');
+        const startButton = document.getElementById('start-button');
+        const stopButton = document.getElementById('stop-button');
+        const allowedCodesList = document.getElementById('allowed-codes-list');
+        
+        // Состояние сканера
+        let stream = null;
+        let scanning = false;
+        let animationFrameId = null;
+        
+        // Белый список разрешенных QR-кодов
+        const allowedQRCodes = {
+            "EMP2023-001": "Сотрудник: Иван Петров (Отдел разработки)",
+            "GUEST-7890": "Гость: ООО 'Технологии будущего'",
+            "VIP-ACCESS": "VIP доступ в закрытую зону",
+            "WAREHOUSE-5": "Доступ на склад №5",
+            "ADMIN-777": "Административный доступ"
+        };
+        
+        // Заполняем список разрешенных кодов
+        function populateAllowedCodesList() {
+            allowedCodesList.innerHTML = '';
+            for (const [code, description] of Object.entries(allowedQRCodes)) {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${code}</strong>: ${description}`;
+                allowedCodesList.appendChild(li);
+            }
         }
         
-        // Интерактивность при наведении
-        document.querySelector('.particles-bg').addEventListener('mousemove', (e) => {
-            e.target.style.setProperty('--x', `${e.clientX}px`);
-            e.target.style.setProperty('--y', `${e.clientY}px`);
+        // Начать сканирование
+        startButton.addEventListener('click', async () => {
+            try {
+                resultDiv.textContent = "Инициализация камеры...";
+                resultDiv.className = '';
+                
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        facingMode: 'environment' // Используем заднюю камеру
+                    } 
+                });
+                
+                video.srcObject = stream;
+                await video.play();
+                
+                startButton.disabled = true;
+                stopButton.disabled = false;
+                scanning = true;
+                
+                resultDiv.textContent = "Сканирование...";
+                
+                scanQRCode();
+            } catch (err) {
+                console.error("Ошибка при доступе к камере:", err);
+                resultDiv.textContent = "Ошибка: Не удалось получить доступ к камере";
+                resultDiv.className = 'invalid';
+            }
+        });
+        
+        // Остановить сканирование
+        stopButton.addEventListener('click', () => {
+            stopScanner();
+            resultDiv.textContent = "Сканирование остановлено";
+            resultDiv.className = '';
+        });
+        
+        // Функция остановки сканера
+        function stopScanner() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                video.srcObject = null;
+            }
+            
+            startButton.disabled = false;
+            stopButton.disabled = true;
+            scanning = false;
+            
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+        }
+        
+        // Сканирование QR-кода
+        function scanQRCode() {
+            if (!scanning) return;
+            
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d');
+            
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            
+            try {
+                const code = jsQR(imageData.data, imageData.width, imageData.height, {
+                    inversionAttempts: "dontInvert",
+                });
+                
+                if (code) {
+                    processScannedCode(code.data);
+                } else {
+                    animationFrameId = requestAnimationFrame(scanQRCode);
+                }
+            } catch (e) {
+                console.error("Ошибка при сканировании:", e);
+                animationFrameId = requestAnimationFrame(scanQRCode);
+            }
+        }
+        
+        // Обработка отсканированного кода
+        function processScannedCode(code) {
+            if (allowedQRCodes[code]) {
+                // Код в белом списке
+                resultDiv.textContent = `Доступ разрешен: ${allowedQRCodes[code]}`;
+                resultDiv.className = 'valid';
+                
+                // Здесь можно добавить дополнительные действия для разрешенных кодов
+                // Например, перенаправление, сохранение в базу данных и т.д.
+                console.log(`Разрешенный код сканирован: ${code}`);
+                
+            } else {
+                // Код не в белом списке
+                resultDiv.textContent = `Отказано в доступе: код "${code}" не найден в списке разрешенных`;
+                resultDiv.className = 'invalid';
+            }
+            
+            // Останавливаем сканирование после обнаружения кода
+            stopScanner();
+            
+            // Через 5 секунд разрешаем новое сканирование
+            setTimeout(() => {
+                resultDiv.textContent = "Готов к сканированию...";
+                resultDiv.className = '';
+            }, 5000);
+        }
+        
+        // Инициализация при загрузке страницы
+        window.addEventListener('DOMContentLoaded', () => {
+            populateAllowedCodesList();
+            
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                resultDiv.textContent = "Ваш браузер не поддерживает доступ к камере или вы используете небезопасный контекст (HTTP вместо HTTPS).";
+                startButton.disabled = true;
+            }
         });
     </script>
 </body>
