@@ -17,7 +17,6 @@ document.querySelector('.particles-bg').addEventListener('mousemove', (e) => {
     e.target.style.setProperty('--y', `${e.clientY}px`);
 });
 
-
 // PRODUCT SCROLL
 document.addEventListener('DOMContentLoaded', function() {
     const centerContainer = document.querySelector('.center-container');

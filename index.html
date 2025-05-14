@@ -95,6 +95,18 @@
         <div id="home" class="tab-content active">
             
             <h2>Главная</h2>
+
+            <div class="profile-news" id="profileNews">
+                <div class="profile-text">
+                    <div class="name-edit-wrapper">
+                        <h3 style="margin-left: 0px;">Загляните в профиль</h3>
+                    </div>
+                    <p style="margin-left: 0px; color: #fff; max-width: 95%;">Каждый месяц проходят интересные конкурсы и розыгрыши. Посмотрите что идет сейчас</p>
+                </div>
+                <div class="profile-icon">
+                    <img style="margin-right: 10px; cursor: pointer;" src="./assets/close.png" width="20px" height="20px" alt="Закрыть уведомление" id="closeButton">
+                </div>
+            </div>
             
             <div class="center-container">
                 <div class="pulse-container">
@@ -334,11 +346,11 @@
                 <div class="profile-info" onclick="window.location.href='./err/'">
                     <div class="profile-text">
                         <div class="name-edit-wrapper">
-                            <h3 id="username">Скидки и промокоды</h3>
+                            <h3 id="username">Акции и Промокоды</h3>
                         </div>
                     </div>
                     <div class="profile-icon">
-                        <img src="./assets/promocode.png" width="24px" height="24px" alt="Скидки и промокоды">
+                        <img src="./assets/promocode.png" width="24px" height="24px" alt="Акции и Промокоды">
                     </div>
                 </div>
                 
@@ -356,7 +368,7 @@
             </div>
 
             <div>
-                <p class="text-version">v1.1.4</p>
+                <p class="text-version">v1.1.5</p>
             </div>
             
         </div>
@@ -543,7 +555,9 @@
             }
         });
     </script>
+
     <script src="./src/js/formScripts.js"></script>
+    <script src="./src/js/statusOpenNews.js"></script>
     <script src="./src/js/slider.js"></script>
 </body>
 </html>

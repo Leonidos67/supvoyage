@@ -681,6 +681,24 @@ body {
     margin: 15px 0;
 }
 
+.profile-news {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    width: calc(100vw - 40px);
+    gap: 12px;
+    background: linear-gradient(60deg, #b049ff, 40%, #bc34b3);
+    padding: 12px;
+    border-radius: 8px;
+    margin: 45px 0;
+    z-index: 20; /* Добавлено: поднимаем над другими элементами */
+}
+
+.profile-icon img {
+    pointer-events: auto; /* Разрешаем клики по изображению */
+    z-index: 21; /* Делаем выше родителя */
+}
+
 .profile-info-form {
     display: flex;
     align-items: center;
