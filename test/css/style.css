@@ -1,0 +1,240 @@
+:root {
+    --primary: #4CAF50;
+    --primary-dark: #388E3C;
+    --secondary: #2196F3;
+    --error: #F44336;
+    --text: #333333;
+    --light-bg: #f0f8ff;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+#logo {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary);
+    text-align: center;
+    margin: 20px 0 10px;
+    letter-spacing: 1.5px;
+}
+
+h1 {
+    color: var(--primary-dark);
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 22px;
+}
+
+/* Стили сканера */
+#scanner-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 20px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    aspect-ratio: 1;
+    display: none;
+}
+
+#scanner-container.active {
+    display: block;
+}
+
+#video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.scanner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 0, 0, 0) 50%,
+        rgba(0, 0, 0, 0.3) 100%
+    );
+    pointer-events: none;
+}
+
+/* Кнопка сканера */
+.scanner-btn {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 20px auto;
+    padding: 15px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: var(--shadow);
+}
+
+.scanner-btn:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+.scanner-btn i {
+    margin-right: 10px;
+}
+
+/* Результаты */
+#result {
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+#sup-id {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1A237E;
+    text-align: center;
+    margin: 10px 0 20px;
+    min-height: 40px;
+}
+
+.success {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+    border: 2px solid var(--primary);
+}
+
+.error {
+    background-color: #FFEBEE;
+    color: var(--error);
+    border: 2px solid var(--error);
+}
+
+.info {
+    background-color: #E3F2FD;
+    color: #0D47A1;
+    border: 2px solid var(--secondary);
+}
+
+/* Ручной ввод */
+.manual-input {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 30px 0;
+    box-shadow: var(--shadow);
+}
+
+.manual-input h2 {
+    color: var(--primary-dark);
+    margin-bottom: 15px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.manual-input h2 i {
+    margin-right: 10px;
+}
+
+.input-group {
+    display: flex;
+    margin: 15px 0;
+}
+
+#manual-code {
+    flex: 1;
+    padding: 12px 15px;
+    border: 2px solid #E0E0E0;
+    border-radius: 8px 0 0 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border 0.3s;
+}
+
+#manual-code:focus {
+    border-color: var(--primary);
+}
+
+#check-btn {
+    background-color: var(--secondary);
+    color: white;
+    border: none;
+    padding: 0 20px;
+    border-radius: 0 8px 8px 0;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#check-btn:hover {
+    background-color: #1976D2;
+}
+
+.instructions {
+    font-size: 14px;
+    color: #616161;
+    margin-top: 15px;
+    line-height: 1.5;
+}
+
+.instructions i {
+    margin-right: 5px;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 480px) {
+    body {
+        padding: 15px 10px;
+    }
+    
+    #logo {
+        font-size: 24px;
+    }
+    
+    h1 {
+        font-size: 20px;
+    }
+    
+    .scanner-btn {
+        padding: 12px;
+        font-size: 16px;
+    }
+    
+    .manual-input {
+        padding: 15px;
+    }
+    
+    #result, #sup-id {
+        font-size: 18px;
+    }
+}

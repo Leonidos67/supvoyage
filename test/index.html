@@ -2,140 +2,1059 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUPVOYAGE • Сканер сапбордов</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SUPVOYAGE • Каталог</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-dark: #388E3C;
+            --secondary: #2196F3;
+            --error: #F44336;
+            --text: #333333;
+            --light-bg: #f0f8ff;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --laser-color: #00ffaa;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
-            background-color: #f0f8ff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            color: var(--text);
+            line-height: 1.5;
+            padding-bottom: 80px;
         }
-        #scanner-container {
-            position: relative;
-            width: 100%;
-            max-width: 500px;
-            margin: 20px auto;
-            border: 3px solid #4CAF50;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        .header {
+            background-color: white;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        #video {
-            width: 100%;
-            display: block;
-        }
-        #result {
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        .success {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            border: 2px solid #4CAF50;
-        }
-        .error {
-            background-color: #ffebee;
-            color: #c62828;
-            border: 2px solid #f44336;
-        }
-        .info {
-            background-color: #e3f2fd;
-            color: #1565c0;
-            border: 2px solid #2196F3;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            margin: 10px;
-            cursor: pointer;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
+
         #logo {
             font-size: 24px;
-            font-weight: bold;
-            color: #4CAF50;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .back-btn-header {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+        .search-section {
+            background: white;
+            padding: 15px;
             margin-bottom: 10px;
         }
-        #sup-id {
-            font-size: 28px;
-            font-weight: bold;
-            color: #1a237e;
-            margin: 10px 0;
+
+        .input-group {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        #manual-code {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px 0 0 8px;
+            font-size: 16px;
+        }
+
+        #check-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 15px;
+            border-radius: 0 8px 8px 0;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        #result {
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+            display: none;
+            margin-top: 10px;
+        }
+
+        .success {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+            border: 1px solid var(--primary);
+        }
+
+        .error {
+            background-color: #FFEBEE;
+            color: var(--error);
+            border: 1px solid var(--error);
+        }
+
+        .catalog {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+        }
+
+        .category-card:active {
+            transform: scale(0.98);
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+        }
+
+        .product-card:active {
+            transform: scale(0.98);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 12px;
+        }
+
+        .product-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .product-price {
+            color: var(--primary-dark);
+            font-weight: 700;
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        .product-code {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .scan-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 5;
+        }
+
+        /* Стили для сканера */
+        #scanner-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+        }
+
+        #scanner-container.active {
+            display: flex;
+        }
+
+        #video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .scanner-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            display: flex;
+            justify-content: flex-end;
+            z-index: 1001;
+        }
+
+        #stop-scanner {
+            background-color: var(--error);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .scan-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scan-frame {
+            width: 80%;
+            max-width: 300px;
+            height: 300px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .laser-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, 
+                transparent, 
+                var(--laser-color), 
+                transparent);
+            box-shadow: 0 0 10px var(--laser-color);
+            animation: scan 2s infinite linear;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        /* Стили для страницы товара */
+        .product-detail {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 100;
+            overflow-y: auto;
+            display: none;
+            padding-bottom: 80px;
+        }
+
+        .product-detail.active {
+            display: block;
+        }
+
+        .detail-header {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            z-index: 10;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .detail-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .detail-content {
+            padding: 15px;
+        }
+
+        .detail-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .detail-code {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .detail-description {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .price-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .detail-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .duration-select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+
+        .book-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        /* Стили для подкаталога */
+        .subcatalog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 50;
+            overflow-y: auto;
+            display: none;
+            padding-bottom: 80px;
+        }
+
+        .subcatalog.active {
+            display: block;
+        }
+
+        .subcatalog-header {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            z-index: 10;
+        }
+
+        .subcatalog-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 400px) {
+            .catalog {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="logo">SUPVOYAGE</div>
-    <h1>Сканер сапбордов</h1>
-    
-    <div id="scanner-container">
-        <video id="video" playsinline></video>
+    <div class="header">
+        <button id="back-btn-header" class="back-btn-header" style="display: none;"><i class="fas fa-arrow-left"></i></button>
+        <div id="logo">SUPVOYAGE</div>
+        <div style="width: 40px;"></div>
     </div>
-    
-    <div id="result">Наведите камеру на QR-код сапборда...</div>
-    
-    <div id="sup-id"></div>
-    
-    <button id="start-btn">▶️ Начать сканирование</button>
-    <button id="stop-btn" disabled>⏹️ Остановить</button>
 
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <div class="search-section">
+        <div class="input-group">
+            <input type="text" id="manual-code" placeholder="Введите код (например: SV-001-W-01)">
+            <button id="check-btn">Найти</button>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <!-- Основной каталог -->
+    <div id="main-catalog" class="catalog">
+        <!-- Категория черных сапов -->
+        <div class="category-card" data-category="black-sups">
+            <img src="https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png" alt="Черные сапы" class="product-image">
+            <div class="product-info">
+                <div class="product-title">Черные сапы</div>
+                <div class="product-price">от 1500 ₽/день</div>
+                <div class="product-code">9 доступных</div>
+            </div>
+        </div>
+        
+        <!-- Категория красных сапов -->
+        <div class="category-card" data-category="red-sups">
+            <img src="https://i.ibb.co/k22N7Q8c/De-Watermark-ai-1747319685673.png" alt="Красные сапы" class="product-image">
+            <div class="product-info">
+                <div class="product-title">Красные сапы</div>
+                <div class="product-price">от 1700 ₽/день</div>
+                <div class="product-code">5 доступных</div>
+            </div>
+        </div>
+        
+        <!-- Жилеты -->
+        <div class="product-card" data-id="sv-002-s-01">
+            <img src="https://via.placeholder.com/300x200?text=Детский+жилет" alt="Детский жилет" class="product-image">
+            <div class="product-info">
+                <div class="product-title">Детский жилет #1</div>
+                <div class="product-price">300 ₽/день</div>
+                <div class="product-code">SV-002-S-01</div>
+            </div>
+        </div>
+        
+        <div class="product-card" data-id="sv-002-m-01">
+            <img src="https://via.placeholder.com/300x200?text=Средний+жилет" alt="Средний жилет" class="product-image">
+            <div class="product-info">
+                <div class="product-title">Средний жилет #1</div>
+                <div class="product-price">400 ₽/день</div>
+                <div class="product-code">SV-002-M-01</div>
+            </div>
+        </div>
+        
+        <div class="product-card" data-id="sv-002-l-01">
+            <img src="https://via.placeholder.com/300x200?text=Взрослый+жилет" alt="Взрослый жилет" class="product-image">
+            <div class="product-info">
+                <div class="product-title">Взрослый жилет #1</div>
+                <div class="product-price">500 ₽/день</div>
+                <div class="product-code">SV-002-L-01</div>
+            </div>
+        </div>
+        
+        <!-- Чехлы -->
+        <div class="product-card" data-id="sv-003-01">
+            <img src="https://via.placeholder.com/300x200?text=Чехол+телефон" alt="Чехол для телефона" class="product-image">
+            <div class="product-info">
+                <div class="product-title">Чехол для телефона</div>
+                <div class="product-price">200 ₽/день</div>
+                <div class="product-code">SV-003-01</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подкаталог для черных сапов -->
+    <div id="black-sups-catalog" class="subcatalog">
+        <div class="subcatalog-header">
+            <button class="back-btn" onclick="closeSubcatalog()"><i class="fas fa-arrow-left"></i></button>
+            <div class="subcatalog-title">Черные сапы</div>
+            <div style="width: 40px;"></div>
+        </div>
+        
+        <div class="catalog">
+            <div class="product-card" data-id="sv-001-w-01">
+                <img src="https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png" alt="Черный сап" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Черный сап #1</div>
+                    <div class="product-price">250 ₽/час</div>
+                    <div class="product-code">SV-001-W-01</div>
+                </div>
+            </div>
+            
+            <div class="product-card" data-id="sv-001-w-02">
+                <img src="https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png" alt="Черный сап" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Черный сап #2</div>
+                    <div class="product-price">250 ₽/час</div>
+                    <div class="product-code">SV-001-W-02</div>
+                </div>
+            </div>
+            
+            <div class="product-card" data-id="sv-001-w-03">
+                <img src="https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png" alt="Черный сап" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Черный сап #3</div>
+                    <div class="product-price">250 ₽/час</div>
+                    <div class="product-code">SV-001-W-03</div>
+                </div>
+            </div>
+            
+            <div class="product-card" data-id="sv-001-w-04">
+                <img src="https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png" alt="Черный сап" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Черный сап #4</div>
+                    <div class="product-price">250 ₽/час</div>
+                    <div class="product-code">SV-001-W-04</div>
+                </div>
+            </div>
+            
+            <div class="product-card" data-id="sv-001-w-05">
+                <img src="https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png" alt="Черный сап" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Черный сап #5</div>
+                    <div class="product-price">250 ₽/час</div>
+                    <div class="product-code">SV-001-W-05</div>
+                </div>
+            </div>
+            
+            <div class="product-card" data-id="sv-001-w-06">
+                <img src="https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png" alt="Черный сап" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Черный сап #6</div>
+                    <div class="product-price">250 ₽/час</div>
+                    <div class="product-code">SV-001-W-06</div>
+                </div>
+            </div>
+            
+            <div class="product-card" data-id="sv-001-w-07">
+                <img src="https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png" alt="Черный сап" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Черный сап #7</div>
+                    <div class="product-price">250 ₽/час</div>
+                    <div class="product-code">SV-001-W-07</div>
+                </div>
+            </div>
+            
+            <div class="product-card" data-id="sv-001-w-08">
+                <img src="https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png" alt="Черный сап" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Черный сап #8</div>
+                    <div class="product-price">250 ₽/час</div>
+                    <div class="product-code">SV-001-W-08</div>
+                </div>
+            </div>
+            
+            <div class="product-card" data-id="sv-001-w-09">
+                <img src="https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png" alt="Черный сап" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Черный сап #9</div>
+                    <div class="product-price">250 ₽/час</div>
+                    <div class="product-code">SV-001-W-09</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подкаталог для красных сапов -->
+    <div id="red-sups-catalog" class="subcatalog">
+        <div class="subcatalog-header">
+            <button class="back-btn" onclick="closeSubcatalog()"><i class="fas fa-arrow-left"></i></button>
+            <div class="subcatalog-title">Красные сапы</div>
+            <div style="width: 40px;"></div>
+        </div>
+        
+        <div class="catalog">
+            <div class="product-card" data-id="sv-001-r-01">
+                <img src="https://i.ibb.co/k22N7Q8c/De-Watermark-ai-1747319685673.png" alt="Красный сап" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Красный сап #1</div>
+                    <div class="product-price">300 ₽/час</div>
+                    <div class="product-code">SV-001-R-01</div>
+                </div>
+            </div>
+            
+            <div class="product-card" data-id="sv-001-r-02">
+                <img src="https://i.ibb.co/k22N7Q8c/De-Watermark-ai-1747319685673.png" alt="Красный сап" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Красный сап #2</div>
+                    <div class="product-price">300 ₽/час</div>
+                    <div class="product-code">SV-001-R-02</div>
+                </div>
+            </div>
+            
+            <div class="product-card" data-id="sv-001-r-03">
+                <img src="https://i.ibb.co/k22N7Q8c/De-Watermark-ai-1747319685673.png" alt="Красный сап" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Красный сап #3</div>
+                    <div class="product-price">300 ₽/час</div>
+                    <div class="product-code">SV-001-R-03</div>
+                </div>
+            </div>
+            
+            <div class="product-card" data-id="sv-001-r-04">
+                <img src="https://i.ibb.co/k22N7Q8c/De-Watermark-ai-1747319685673.png" alt="Красный сап" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Красный сап #4</div>
+                    <div class="product-price">300 ₽/час</div>
+                    <div class="product-code">SV-001-R-04</div>
+                </div>
+            </div>
+            
+            <div class="product-card" data-id="sv-001-r-05">
+                <img src="https://i.ibb.co/k22N7Q8c/De-Watermark-ai-1747319685673.png" alt="Красный сап" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">Красный сап #5</div>
+                    <div class="product-price">300 ₽/час</div>
+                    <div class="product-code">SV-001-R-05</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="open-scanner" class="scan-btn">
+        <i class="fas fa-qrcode"></i> Отсканировать
+    </button>
+
+    <!-- Сканер -->
+    <div id="scanner-container">
+        <div class="scanner-header">
+            <button id="stop-scanner">Отмена</button>
+        </div>
+        <video id="video" playsinline></video>
+        <div class="scan-overlay">
+            <div class="scan-frame">
+                <div class="laser-line"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница товара -->
+    <div id="product-detail" class="product-detail">
+        <div class="detail-header">
+            <button class="back-btn"><i class="fas fa-arrow-left"></i></button>
+            <div id="detail-title" class="detail-title"></div>
+            <div style="width: 40px;"></div>
+        </div>
+        
+        <img id="detail-image" src="" alt="" class="detail-image">
+        
+        <div class="detail-content">
+            <div id="detail-code" class="detail-code"></div>
+            <div id="detail-description" class="detail-description"></div>
+            
+            <div class="price-section">
+                <div id="detail-price" class="detail-price"></div>
+                <select id="duration-select" class="duration-select">
+                    <option value="1">1 час</option>
+                    <option value="2">2 часа</option>
+                    <option value="3">3 часа</option>
+                    <option value="4">4 часа</option>
+                    <option value="5">5 часов</option>
+                    <option value="6">6 часов</option>
+                    <option value="24" selected>1 день</option>
+                    <option value="48">2 дня</option>
+                    <option value="72">3 дня</option>
+                    <option value="96">4 дня</option>
+                    <option value="120">5 дней</option>
+                    <option value="168">Неделя</option>
+                </select>
+            </div>
+            
+            <button id="book-btn" class="book-btn">Перейти к бронированию</button>
+        </div>
+    </div>
+
     <script>
+        // База данных товаров
+        const PRODUCTS_DB = {
+            // Сапы черные (9 штук)
+            'sv-001-w-01': {
+                title: 'Черный сап #1',
+                image: 'https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png',
+                price: 250,
+                pricePerDay: 1500,
+                description: 'Профессиональный сапборд черного цвета. Отлично подходит для спокойных водоемов.',
+                type: 'САП-БОРД',
+                color: 'черный',
+                number: 1
+            },
+            'sv-001-w-02': {
+                title: 'Черный сап #2',
+                image: 'https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png',
+                price: 250,
+                pricePerDay: 1500,
+                description: 'Профессиональный сапборд черного цвета. Отлично подходит для спокойных водоемов.',
+                type: 'САП-БОРД',
+                color: 'черный',
+                number: 2
+            },
+            'sv-001-w-03': {
+                title: 'Черный сап #3',
+                image: 'https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png',
+                price: 250,
+                pricePerDay: 1500,
+                description: 'Профессиональный сапборд черного цвета. Отлично подходит для спокойных водоемов.',
+                type: 'САП-БОРД',
+                color: 'черный',
+                number: 3
+            },
+            'sv-001-w-04': {
+                title: 'Черный сап #4',
+                image: 'https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png',
+                price: 250,
+                pricePerDay: 1500,
+                description: 'Профессиональный сапборд черного цвета. Отлично подходит для спокойных водоемов.',
+                type: 'САП-БОРД',
+                color: 'черный',
+                number: 4
+            },
+            'sv-001-w-05': {
+                title: 'Черный сап #5',
+                image: 'https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png',
+                price: 250,
+                pricePerDay: 1500,
+                description: 'Профессиональный сапборд черного цвета. Отлично подходит для спокойных водоемов.',
+                type: 'САП-БОРД',
+                color: 'черный',
+                number: 5
+            },
+            'sv-001-w-06': {
+                title: 'Черный сап #6',
+                image: 'https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png',
+                price: 250,
+                pricePerDay: 1500,
+                description: 'Профессиональный сапборд черного цвета. Отлично подходит для спокойных водоемов.',
+                type: 'САП-БОРД',
+                color: 'черный',
+                number: 6
+            },
+            'sv-001-w-07': {
+                title: 'Черный сап #7',
+                image: 'https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png',
+                price: 250,
+                pricePerDay: 1500,
+                description: 'Профессиональный сапборд черного цвета. Отлично подходит для спокойных водоемов.',
+                type: 'САП-БОРД',
+                color: 'черный',
+                number: 7
+            },
+            'sv-001-w-08': {
+                title: 'Черный сап #8',
+                image: 'https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png',
+                price: 250,
+                pricePerDay: 1500,
+                description: 'Профессиональный сапборд черного цвета. Отлично подходит для спокойных водоемов.',
+                type: 'САП-БОРД',
+                color: 'черный',
+                number: 8
+            },
+            'sv-001-w-09': {
+                title: 'Черный сап #9',
+                image: 'https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png',
+                price: 250,
+                pricePerDay: 1500,
+                description: 'Профессиональный сапборд черного цвета. Отлично подходит для спокойных водоемов.',
+                type: 'САП-БОРД',
+                color: 'черный',
+                number: 9
+            },
+            
+            // Сапы красные (5 штук)
+            'sv-001-r-01': {
+                title: 'Красный сап #1',
+                image: 'https://i.ibb.co/k22N7Q8c/De-Watermark-ai-1747319685673.png',
+                price: 300,
+                pricePerDay: 1700,
+                description: 'Эксклюзивный сапборд красного цвета. Высокая устойчивость и маневренность.',
+                type: 'САП-БОРД',
+                color: 'красный',
+                number: 1
+            },
+            'sv-001-r-02': {
+                title: 'Красный сап #2',
+                image: 'https://i.ibb.co/k22N7Q8c/De-Watermark-ai-1747319685673.png',
+                price: 300,
+                pricePerDay: 1700,
+                description: 'Эксклюзивный сапборд красного цвета. Высокая устойчивость и маневренность.',
+                type: 'САП-БОРД',
+                color: 'красный',
+                number: 2
+            },
+            'sv-001-r-03': {
+                title: 'Красный сап #3',
+                image: 'https://i.ibb.co/k22N7Q8c/De-Watermark-ai-1747319685673.png',
+                price: 300,
+                pricePerDay: 1700,
+                description: 'Эксклюзивный сапборд красного цвета. Высокая устойчивость и маневренность.',
+                type: 'САП-БОРД',
+                color: 'красный',
+                number: 3
+            },
+            'sv-001-r-04': {
+                title: 'Красный сап #4',
+                image: 'https://i.ibb.co/k22N7Q8c/De-Watermark-ai-1747319685673.png',
+                price: 300,
+                pricePerDay: 1700,
+                description: 'Эксклюзивный сапборд красного цвета. Высокая устойчивость и маневренность.',
+                type: 'САП-БОРД',
+                color: 'красный',
+                number: 4
+            },
+            'sv-001-r-05': {
+                title: 'Красный сап #5',
+                image: 'https://i.ibb.co/k22N7Q8c/De-Watermark-ai-1747319685673.png',
+                price: 300,
+                pricePerDay: 1700,
+                description: 'Эксклюзивный сапборд красного цвета. Высокая устойчивость и маневренность.',
+                type: 'САП-БОРД',
+                color: 'красный',
+                number: 5
+            },
+            
+            // Жилеты детские (3 штуки)
+            'sv-002-s-01': {
+                title: 'Детский жилет #1',
+                image: 'https://via.placeholder.com/300x200?text=Детский+жилет',
+                price: 300,
+                pricePerDay: 300,
+                description: 'Безопасный жилет для детей. Соответствует всем стандартам безопасности.',
+                type: 'ЖИЛЕТ',
+                size: 'детский',
+                number: 1
+            },
+            'sv-002-s-02': {
+                title: 'Детский жилет #2',
+                image: 'https://via.placeholder.com/300x200?text=Детский+жилет',
+                price: 300,
+                pricePerDay: 300,
+                description: 'Безопасный жилет для детей. Соответствует всем стандартам безопасности.',
+                type: 'ЖИЛЕТ',
+                size: 'детский',
+                number: 2
+            },
+            'sv-002-s-03': {
+                title: 'Детский жилет #3',
+                image: 'https://via.placeholder.com/300x200?text=Детский+жилет',
+                price: 300,
+                pricePerDay: 300,
+                description: 'Безопасный жилет для детей. Соответствует всем стандартам безопасности.',
+                type: 'ЖИЛЕТ',
+                size: 'детский',
+                number: 3
+            },
+            
+            // Жилеты средние (2 штуки)
+            'sv-002-m-01': {
+                title: 'Средний жилет #1',
+                image: 'https://via.placeholder.com/300x200?text=Средний+жилет',
+                price: 400,
+                pricePerDay: 400,
+                description: 'Универсальный жилет для подростков и взрослых с небольшим телосложением.',
+                type: 'ЖИЛЕТ',
+                size: 'средний',
+                number: 1
+            },
+            'sv-002-m-02': {
+                title: 'Средний жилет #2',
+                image: 'https://via.placeholder.com/300x200?text=Средний+жилет',
+                price: 400,
+                pricePerDay: 400,
+                description: 'Универсальный жилет для подростков и взрослых с небольшим телосложением.',
+                type: 'ЖИЛЕТ',
+                size: 'средний',
+                number: 2
+            },
+            
+            // Жилеты взрослые (4 штуки)
+            'sv-002-l-01': {
+                title: 'Взрослый жилет #1',
+                image: 'https://via.placeholder.com/300x200?text=Взрослый+жилет',
+                price: 500,
+                pricePerDay: 500,
+                description: 'Профессиональный спасательный жилет для взрослых. Максимальная безопасность.',
+                type: 'ЖИЛЕТ',
+                size: 'взрослый',
+                number: 1
+            },
+            'sv-002-l-02': {
+                title: 'Взрослый жилет #2',
+                image: 'https://via.placeholder.com/300x200?text=Взрослый+жилет',
+                price: 500,
+                pricePerDay: 500,
+                description: 'Профессиональный спасательный жилет для взрослых. Максимальная безопасность.',
+                type: 'ЖИЛЕТ',
+                size: 'взрослый',
+                number: 2
+            },
+            'sv-002-l-03': {
+                title: 'Взрослый жилет #3',
+                image: 'https://via.placeholder.com/300x200?text=Взрослый+жилет',
+                price: 500,
+                pricePerDay: 500,
+                description: 'Профессиональный спасательный жилет для взрослых. Максимальная безопасность.',
+                type: 'ЖИЛЕТ',
+                size: 'взрослый',
+                number: 3
+            },
+            'sv-002-l-04': {
+                title: 'Взрослый жилет #4',
+                image: 'https://via.placeholder.com/300x200?text=Взрослый+жилет',
+                price: 500,
+                pricePerDay: 500,
+                description: 'Профессиональный спасательный жилет для взрослых. Максимальная безопасность.',
+                type: 'ЖИЛЕТ',
+                size: 'взрослый',
+                number: 4
+            },
+            
+            // Чехлы (4 штуки)
+            'sv-003-01': {
+                title: 'Чехол для телефона #1',
+                image: 'https://via.placeholder.com/300x200?text=Чехол+телефон',
+                price: 200,
+                pricePerDay: 200,
+                description: 'Водонепроницаемый чехол для телефона. Защищает от брызг и падений в воду.',
+                type: 'ЧЕХОЛ',
+                number: 1
+            },
+            'sv-003-02': {
+                title: 'Чехол для телефона #2',
+                image: 'https://via.placeholder.com/300x200?text=Чехол+телефон',
+                price: 200,
+                pricePerDay: 200,
+                description: 'Водонепроницаемый чехол для телефона. Защищает от брызг и падений в воду.',
+                type: 'ЧЕХОЛ',
+                number: 2
+            },
+            'sv-003-03': {
+                title: 'Чехол для телефона #3',
+                image: 'https://via.placeholder.com/300x200?text=Чехол+телефон',
+                price: 200,
+                pricePerDay: 200,
+                description: 'Водонепроницаемый чехол для телефона. Защищает от брызг и падений в воду.',
+                type: 'ЧЕХОЛ',
+                number: 3
+            },
+            'sv-003-04': {
+                title: 'Чехол для телефона #4',
+                image: 'https://via.placeholder.com/300x200?text=Чехол+телефон',
+                price: 200,
+                pricePerDay: 200,
+                description: 'Водонепроницаемый чехол для телефона. Защищает от брызг и падений в воду.',
+                type: 'ЧЕХОЛ',
+                number: 4
+            }
+        };
+
+        // Элементы DOM
         const video = document.getElementById('video');
         const resultDiv = document.getElementById('result');
-        const supIdDiv = document.getElementById('sup-id');
-        const startBtn = document.getElementById('start-btn');
-        const stopBtn = document.getElementById('stop-btn');
-        
-        // Основной домен для проверки
-        const BASE_URL = 'https://leonidos67.github.io/supvoyage';
-        
+        const openScannerBtn = document.getElementById('open-scanner');
+        const stopScannerBtn = document.getElementById('stop-scanner');
+        const scannerContainer = document.getElementById('scanner-container');
+        const manualCodeInput = document.getElementById('manual-code');
+        const checkBtn = document.getElementById('check-btn');
+        const productCards = document.querySelectorAll('.product-card');
+        const productDetail = document.getElementById('product-detail');
+        const backBtn = document.querySelector('.back-btn');
+        const detailTitle = document.getElementById('detail-title');
+        const detailImage = document.getElementById('detail-image');
+        const detailCode = document.getElementById('detail-code');
+        const detailDescription = document.getElementById('detail-description');
+        const detailPrice = document.getElementById('detail-price');
+        const durationSelect = document.getElementById('duration-select');
+        const bookBtn = document.getElementById('book-btn');
+        const backBtnHeader = document.getElementById('back-btn-header');
+        const mainCatalog = document.getElementById('main-catalog');
+        const blackSupsCatalog = document.getElementById('black-sups-catalog');
+        const redSupsCatalog = document.getElementById('red-sups-catalog');
+        const categoryCards = document.querySelectorAll('.category-card');
+
         let stream = null;
         let scanning = false;
 
-        // Функция для извлечения ID сапборда из URL
-        function getSupId(url) {
-            try {
-                const parsedUrl = new URL(url);
-                
-                // Проверяем, что URL начинается с базового
-                if (!parsedUrl.href.startsWith(BASE_URL)) {
-                    return null;
-                }
-                
-                // Извлекаем путь после базового URL (например, "/sv-00150")
-                const path = parsedUrl.pathname;
-                
-                // Удаляем слэши и разбиваем путь
-                const parts = path.replace(/^\/+|\/+$/g, '').split('/');
-                
-                // Последняя часть пути - ID сапборда (например, "sv-00150")
-                return parts[parts.length - 1] || null;
-                
-            } catch (e) {
-                return null;
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            // Проверка поддержки API камеры
+            if (!navigator.mediaDevices?.getUserMedia) {
+                openScannerBtn.disabled = true;
+                openScannerBtn.innerHTML = '<i class="fas fa-ban"></i> Камера не поддерживается';
+            }
+
+            // Обработчики для категорий
+            categoryCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const category = card.getAttribute('data-category');
+                    openSubcatalog(category);
+                });
+            });
+
+            // Обработчики для карточек товаров
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    // Проверяем, был ли клик по изображению (для категорий)
+                    if (e.target.classList.contains('product-image') && card.classList.contains('category-card')) {
+                        return; // Позволяем обработчику категории сработать
+                    }
+                    
+                    const productId = card.getAttribute('data-id');
+                    if (productId) {
+                        showProductDetail(productId);
+                    }
+                });
+            });
+        });
+
+        // Открыть подкаталог
+        function openSubcatalog(category) {
+            mainCatalog.style.display = 'none';
+            backBtnHeader.style.display = 'block';
+            
+            if (category === 'black-sups') {
+                blackSupsCatalog.classList.add('active');
+            } else if (category === 'red-sups') {
+                redSupsCatalog.classList.add('active');
             }
         }
 
-        startBtn.addEventListener('click', async () => {
+        // Закрыть подкаталог
+        function closeSubcatalog() {
+            blackSupsCatalog.classList.remove('active');
+            redSupsCatalog.classList.remove('active');
+            mainCatalog.style.display = 'grid';
+            backBtnHeader.style.display = 'none';
+        }
+
+        // Назад к каталогу
+        backBtnHeader.addEventListener('click', closeSubcatalog);
+
+        // Открыть сканер
+        openScannerBtn.addEventListener('click', async () => {
             try {
+                scannerContainer.classList.add('active');
+                
                 stream = await navigator.mediaDevices.getUserMedia({ 
                     video: { 
                         facingMode: 'environment',
@@ -147,24 +1066,18 @@
                 video.srcObject = stream;
                 await video.play();
                 
-                startBtn.disabled = true;
-                stopBtn.disabled = false;
                 scanning = true;
-                resultDiv.textContent = "Ищем QR-код сапборда...";
-                resultDiv.className = "info";
-                supIdDiv.textContent = "";
-                
                 scanFrame();
             } catch (err) {
-                resultDiv.textContent = "Ошибка: " + err.message;
-                resultDiv.className = "error";
+                console.error("Ошибка камеры:", err);
+                showResult("Ошибка доступа к камере", false);
+                scannerContainer.classList.remove('active');
             }
         });
 
-        stopBtn.addEventListener('click', () => {
+        // Остановить сканер
+        stopScannerBtn.addEventListener('click', () => {
             stopScanner();
-            resultDiv.textContent = "Готов к сканированию";
-            resultDiv.className = "info";
         });
 
         function stopScanner() {
@@ -172,11 +1085,12 @@
                 stream.getTracks().forEach(track => track.stop());
                 video.srcObject = null;
             }
+            
             scanning = false;
-            startBtn.disabled = false;
-            stopBtn.disabled = true;
+            scannerContainer.classList.remove('active');
         }
 
+        // Сканирование кадров
         function scanFrame() {
             if (!scanning) return;
             
@@ -195,27 +1109,15 @@
                 
                 if (code) {
                     const url = code.data.trim();
-                    const supId = getSupId(url);
+                    const productId = getProductId(url);
                     
-                    if (supId) {
-                        resultDiv.textContent = "✅ Найден сапборд:";
-                        resultDiv.className = "success";
-                        supIdDiv.textContent = supId.toUpperCase(); // Показываем ID крупно
-                        
-                        // Можно добавить звук успеха (опционально)
-                        if (typeof Audio !== 'undefined') {
-                            new Audio('https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3').play();
-                        }
-                    } else {
-                        resultDiv.textContent = "❌ Это не QR-код SUPVOYAGE";
-                        resultDiv.className = "error";
-                        supIdDiv.textContent = "";
-                    }
-                    
-                    // Автоостановка через 5 секунд
-                    setTimeout(() => {
+                    if (productId && PRODUCTS_DB[productId]) {
                         stopScanner();
-                    }, 5000);
+                        showProductDetail(productId);
+                    } else {
+                        showResult("Товар не найден", false);
+                        playSound('error');
+                    }
                 } else {
                     requestAnimationFrame(scanFrame);
                 }
@@ -225,14 +1127,168 @@
             }
         }
 
-        // Проверка поддержки API при загрузке
-        window.addEventListener('DOMContentLoaded', () => {
-            if (!navigator.mediaDevices?.getUserMedia) {
-                resultDiv.textContent = "Ваш браузер не поддерживает сканирование. Попробуйте Chrome или Safari.";
-                resultDiv.className = "error";
-                startBtn.disabled = true;
+        // Получить ID товара из URL
+        function getProductId(url) {
+            try {
+                const parsedUrl = new URL(url);
+                const path = parsedUrl.pathname;
+                const parts = path.replace(/^\/+|\/+$/g, '').split('/');
+                const code = parts[parts.length - 1] || null;
+                
+                // Проверяем формат кода
+                const pattern = /^sv-\d{3}-?[a-z]?-?\d{2}$/i;
+                return pattern.test(code) ? code.toLowerCase() : null;
+            } catch (e) {
+                return null;
             }
+        }
+
+        // Показать страницу товара
+        function showProductDetail(productId) {
+            const product = PRODUCTS_DB[productId];
+            if (!product) return;
+            
+            detailTitle.textContent = product.title;
+            detailImage.src = product.image;
+            detailImage.alt = product.title;
+            detailCode.textContent = `Код: ${productId.toUpperCase()}`;
+            detailDescription.textContent = product.description;
+            
+            // Обновляем цену при изменении длительности
+            updatePrice(product);
+            
+            productDetail.classList.add('active');
+            
+            // Обработчик изменения длительности
+            durationSelect.addEventListener('change', () => {
+                updatePrice(product);
+            });
+        }
+
+        // Обновить цену в зависимости от выбранной длительности
+        function updatePrice(product) {
+            const duration = parseInt(durationSelect.value);
+            let price;
+            let periodText;
+            
+            if (duration < 24) {
+                // Аренда по часам
+                price = product.price * duration;
+                periodText = `${duration} ${getHoursText(duration)}`;
+            } else {
+                // Аренда по дням
+                const days = duration / 24;
+                price = product.pricePerDay * days;
+                periodText = `${days} ${getDaysText(days)}`;
+            }
+            
+            detailPrice.textContent = `${price} ₽`;
+        }
+
+        // Получить правильное склонение для часов
+        function getHoursText(hours) {
+            if (hours % 100 >= 11 && hours % 100 <= 14) {
+                return 'часов';
+            }
+            
+            switch (hours % 10) {
+                case 1: return 'час';
+                case 2:
+                case 3:
+                case 4: return 'часа';
+                default: return 'часов';
+            }
+        }
+
+        // Получить правильное склонение для дней
+        function getDaysText(days) {
+            if (days % 100 >= 11 && days % 100 <= 14) {
+                return 'дней';
+            }
+            
+            switch (days % 10) {
+                case 1: return 'день';
+                case 2:
+                case 3:
+                case 4: return 'дня';
+                default: return 'дней';
+            }
+        }
+
+        // Назад к каталогу
+        backBtn.addEventListener('click', () => {
+            productDetail.classList.remove('active');
         });
-    </script>
-</body>
+
+        // Бронирование
+        bookBtn.addEventListener('click', () => {
+            const duration = durationSelect.value;
+            const durationText = getDurationText(duration);
+            alert(`Бронирование: ${detailTitle.textContent} на ${durationText}`);
+            // Здесь можно добавить логику бронирования
+        });
+
+        // Получить текст продолжительности
+        function getDurationText(hours) {
+            const hoursNum = parseInt(hours);
+            if (hoursNum === 1) return '1 час';
+            if (hoursNum < 24) return `${hoursNum} ${getHoursText(hoursNum)}`;
+            if (hoursNum === 24) return '1 день';
+            if (hoursNum === 48) return '2 дня';
+            if (hoursNum === 72) return '3 дня';
+            if (hoursNum === 96) return '4 дня';
+            if (hoursNum === 120) return '5 дней';
+            if (hoursNum === 168) return '1 неделю';
+            return `${hoursNum/24} ${getDaysText(hoursNum/24)}`;
+        }
+
+        // Показать результат поиска
+        function showResult(message, isValid) {
+            resultDiv.textContent = message;
+            resultDiv.className = isValid ? "success" : "error";
+            resultDiv.style.display = 'block';
+            
+            // Скрыть через 3 секунды
+            setTimeout(() => {
+                resultDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        // Воспроизвести звук
+        function playSound(type) {
+            if (typeof Audio !== 'undefined') {
+                const sounds = {
+                    success: 'https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3',
+                    error: 'https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3'
+                };
+                new Audio(sounds[type]).play();
+            }
+        }
+
+        // Ручной ввод кода
+        checkBtn.addEventListener('click', checkManualCode);
+        manualCodeInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkManualCode();
+        });
+
+        function checkManualCode() {
+            const code = manualCodeInput.value.trim().toLowerCase();
+            
+            if (!code) {
+                showResult("Введите код товара", false);
+                return;
+            }
+            
+            if (PRODUCTS_DB[code]) {
+                showProductDetail(code);
+            } else {
+                showResult("Товар с таким кодом не найден", false);
+                playSound('error');
+            }
+            
+            manualCodeInput.value = "";
+        }
+
+        </script>
+    </body>
 </html>
