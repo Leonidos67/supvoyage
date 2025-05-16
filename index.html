@@ -4,87 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SupVoyage | Mini App</title>
-
-    <script src="https://unpkg.com/html5-qrcode"></script>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="./src/css/style.css">
     <link rel="stylesheet" href="./src/css/styleCard.css">
     <style>
         /* Обновлённые стили для модального окна */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
         
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .modal-content {
-            background: radial-gradient(#1a1a1a, #0a0a0a);
-            border-radius: 15px 15px 0 0;
-            padding: 25px;
-            width: 100%;
-            max-width: 100%;
-            box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.5);
-            transform: translateY(100%);
-            transition: all 0.3s ease;
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-        
-        .modal-overlay.active .modal-content {
-            transform: translateY(0);
-        }
-        
-        .modal-title {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #fff;
-            font-size: 20px;
-        }
-        
-        .modal-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .modal-btn {
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            background: #fff;
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, opacity 0.2s;
-            text-align: center;
-            width: 100%;
-        }
-        
-        .modal-btn:hover {
-            transform: translateY(-2px);
-            opacity: 0.9;
-        }
-        
-        .modal-btn.close-btn {
-            background: linear-gradient(#ff6b6b, #ff8787);
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
@@ -153,7 +78,7 @@
                     <!--<div class="product-card"></div>-->
                     
                     <div class="product-card">
-                        <img src="./assets/product1.jpg" alt="Товар 1" class="product-image">
+                        <img src="" alt="Товар 1" class="product-image">
                         <div class="product-content">
                             <h3 class="product-title">Название товара 1</h3>
                             <p class="product-description">Краткое описание товара и его основные характеристики</p>
@@ -166,7 +91,7 @@
                     </div>
                     
                     <div class="product-card">
-                        <img src="./assets/product2.jpg" alt="Товар 2" class="product-image">
+                        <img src="" alt="Товар 2" class="product-image">
                         <div class="product-content">
                             <h3 class="product-title">Название товара 2</h3>
                             <p class="product-description">Краткое описание товара и его основные характеристики</p>
@@ -179,7 +104,7 @@
                     </div>
                     
                     <div class="product-card">
-                        <img src="./assets/product3.jpg" alt="Товар 3" class="product-image">
+                        <img src="" alt="Товар 3" class="product-image">
                         <div class="product-content">
                             <h3 class="product-title">Название товара 3</h3>
                             <p class="product-description">Краткое описание товара и его основные характеристики</p>
@@ -192,7 +117,7 @@
                     </div>
                     
                     <div class="product-card">
-                        <img src="./assets/product4.jpg" alt="Товар 4" class="product-image">
+                        <img src="" alt="Товар 4" class="product-image">
                         <div class="product-content">
                             <h3 class="product-title">Название товара 4</h3>
                             <p class="product-description">Краткое описание товара и его основные характеристики</p>
@@ -212,26 +137,294 @@
         <!-- start content -->
         <div id="start" class="tab-content">
 
-            <h2>Бронь</h2>
+            <h2 class="catalog-title">Бронь</h2>
+<div class="code-search-wrapper sticky-search full-width">
+    <div class="code-search-row">
+        <input type="text" class="code-search" id="codeSearchInput" placeholder="Введите код (например, sv-001-r-03)">
+        <button class="scan-button" id="infoToggle" onclick="toggleInfo()">i</button>
+    </div>
+    <div id="infoMessage" class="info-message" style="display: none;">Привет, у меня всё хорошо</div>
+    <p id="searchResult" class="search-result"></p>
+</div>
 
-            <div style="margin-top: 20px;">
-            <button id="scanBtn" class="main-button"><span>Сканировать</span></button>
+<!-- Каталог товаров -->
+<div class="catalog-container">
+    <h3 class="catalog-section-title">Сапы</h3>
+    <div class="catalog-grid">
+        <div class="catalog-item" onclick="showProductCard('sv-001-w-01')">
+            <img src="https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png" alt="Black Samurai">
+<p>Black Samurai</p>
+        </div>
+        <div class="catalog-item" onclick="showProductCard('sv-001-r-01')">
+            <img src="https://i.ibb.co/k22N7Q8c/De-Watermark-ai-1747319685673.png" alt="Dark Queen">
+<p>Dark Queen</p>
+        </div>
+    </div>
+
+    <h3 class="catalog-section-title">Жилеты</h3>
+    <div class="catalog-grid">
+        <div class="catalog-item" onclick="showProductCard('sv-002-s-01')">
+            <img src="./assets/vest_kids.jpg" alt="Детский жилет">
+            <p>Детский</p>
+        </div>
+        <div class="catalog-item" onclick="showProductCard('sv-002-m-01')">
+            <img src="./assets/vest_medium.jpg" alt="Средний жилет">
+            <p>Средний</p>
+        </div>
+        <div class="catalog-item" onclick="showProductCard('sv-002-l-01')">
+            <img src="./assets/vest_adult.jpg" alt="Взрослый жилет">
+            <p>Взрослый</p>
+        </div>
+    </div>
+
+    <h3 class="catalog-section-title">Чехол для телефона</h3>
+    <div class="catalog-grid">
+        <div class="catalog-item" onclick="showProductCard('sv-003-01')">
+            <img src="./assets/phone_case.jpg" alt="Чехол для телефона">
+            <p>Чехол</p>
+        </div>
+    </div>
+</div>
+
+<div id="productCardContainer"></div>
+
+<style>
+.catalog-title {
+    font-size: 24px;
+    color: #fff;
+    text-align: center;
+    margin: 0 0 20px;
+}
+
+.code-search-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px 20px;
+    background: #000;
+    z-index: 10;
+    width: 100vw;
+    box-sizing: border-box;
+}
+
+.sticky-search {
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(4px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.code-search-row {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.code-search {
+    flex: 1;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #aaa;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.scan-button {
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 48px;
+    text-align: center;
+}
+
+.search-result {
+    color: #fff;
+    font-size: 14px;
+    padding-left: 4px;
+}
+
+.catalog-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.catalog-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.catalog-item img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.catalog-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.product-card-result {
+    background: #000;
+    color: white;
+    width: 100vw;
+    box-sizing: border-box;
+}
+
+.product-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000;
+    padding: 12px 16px;
+    gap: 10px;
+}
+
+.product-header h4 {
+    margin: 0;
+    font-size: 18px;
+    flex: 1;
+    text-align: center;
+    color: white;
+}
+
+.product-card-result img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+    border: none;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    opacity: 0;
+    transform: scale(1.05);
+    animation: smoothImageEnter 0.4s ease-out forwards;
+}
+
+.product-info-result {
+    padding: 16px;
+    font-size: 16px;
+    color: white;
+}
+
+.back-button, .share-button {
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 14px;
+    cursor: pointer;
+}
+@keyframes smoothImageEnter {
+    0% {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+</style>
+
+<script>
+function toggleInfo() {
+    const info = document.getElementById('infoMessage');
+    const button = document.getElementById('infoToggle');
+    const isHidden = info.style.display === 'none';
+    info.style.display = isHidden ? 'block' : 'none';
+    button.textContent = isHidden ? '✖' : 'i';
+}
+
+function shareProduct() {
+    const title = document.querySelector('.product-header h4')?.textContent || 'Товар';
+    if (navigator.share) {
+        navigator.share({ title, url: location.href });
+    } else {
+        alert('Поделиться можно через меню браузера');
+    }
+}
+
+function showProductCard(code) {
+    document.querySelector('.catalog-container').style.display = 'none';
+    document.querySelector('.code-search-wrapper').style.display = 'none';
+    document.querySelector('.catalog-title').style.display = 'none';
+
+    const parts = code.split('-');
+    let html = '';
+    let title = '';
+    let img = '';
+    let infoHTML = '';
+
+    if (parts[1] === '001') {
+        const color = parts[2] === 'r' ? 'красный' : 'черный';
+        img = parts[2] === 'r' ? 'https://i.ibb.co/k22N7Q8c/De-Watermark-ai-1747319685673.png' : 'https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png';
+        title = `Сап-борд #${parts[3]}`;
+        infoHTML = `<p>Цвет: ${color}</p><p>Цена: 500 ₽ / 1 час</p>`;
+    } else if (parts[1] === '002') {
+        const sizes = { s: 'детский', m: 'средний', l: 'взрослый' };
+        img = `./assets/vest_${parts[2]}.jpg`;
+        title = `Жилет #${parts[3]}`;
+        infoHTML = `<p>Размер: ${sizes[parts[2]]}</p><p>Цена: 300 ₽ / 1 час</p>`;
+    } else if (parts[1] === '003') {
+        img = `./assets/phone_case.jpg`;
+        title = `Чехол #${parts[2]}`;
+        infoHTML = `<p>Водонепроницаемый чехол</p><p>Цена: 100 ₽ / аренда</p>`;
+    }
+
+    html += `
+        <div class="product-card-result">
+            <div class="product-header">
+                <button class="back-button" onclick="goBack()">Назад</button>
+                <h4>${title}</h4>
+                <button class="share-button" onclick="shareProduct()">Поделиться</button>
             </div>
-
-            <!-- Контейнер для полноэкранной камеры -->
-            <div id="scannerFullScreen" style="display: none; position: fixed; inset: 0; background: black; z-index: 9999; flex-direction: column;">
-            <div id="reader" style="flex: 1;"></div>
-
-            <!-- Нижняя панель с кнопками -->
-            <div style="margin-bottom: 100px; display: flex; justify-content: space-between; padding: 12px; background: rgba(0, 0, 0, 0.6);">
-                <button id="closeScanBtn" style="color: white; background: #ff4b4b; border: none; padding: 10px 15px; border-radius: 10px; font-size: 16px;">Закрыть</button>
-                <button id="toggleFlashBtn" style="color: white; background: #4caf50; border: none; padding: 10px 15px; border-radius: 10px; font-size: 16px;">Включить вспышку</button>
+            <img src="${img}" alt="${title}">
+            <div class="product-info-result">
+                ${infoHTML}
             </div>
-            </div>
+        </div>
+    `;
 
-            <div id="scanResult" style="margin-top: 20px; text-align: center; font-size: 18px;"></div>
+    document.getElementById('productCardContainer').innerHTML = html;
+}
 
-            
+function goBack() {
+    document.querySelector('.catalog-container').style.display = 'flex';
+    document.querySelector('.code-search-wrapper').style.display = 'flex';
+    document.querySelector('.catalog-title').style.display = 'block';
+    document.getElementById('productCardContainer').innerHTML = '';
+}
+</script>
+
+
+            <div style="margin-top: 1000px;"></div>
+
         </div>
 
         <!-- menu content -->
@@ -369,129 +562,8 @@
 
     <button class="scroll-top-btn" id="scrollTopBtn" title="Наверх">Наверх</button>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const menuItems = document.querySelectorAll('.menu-item');
-            const tabContents = document.querySelectorAll('.tab-content');
-            const startButton = document.getElementById('startButton');
-            const supForm = document.getElementById('supForm');
-            const startModal = document.getElementById('startModal');
-            const selfFillBtn = document.getElementById('selfFillBtn');
-            const helpFillBtn = document.getElementById('helpFillBtn');
-            const closeModalBtn = document.getElementById('closeModalBtn');
-
-            // Функция переключения вкладок
-            function switchTab(tabId) {
-                menuItems.forEach(i => i.classList.remove('active'));
-                tabContents.forEach(tab => tab.classList.remove('active'));
-                
-                const menuItem = document.querySelector(`.menu-item[data-tab="${tabId}"]`);
-                if (menuItem) menuItem.classList.add('active');
-                document.getElementById(tabId).classList.add('active');
-            }
-
-            // Функция закрытия модального окна
-            function closeModal() {
-                startModal.classList.remove('active');
-            }
-
-            // Переключение вкладок через меню
-            menuItems.forEach(item => {
-                item.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    switchTab(this.getAttribute('data-tab'));
-                });
-            });
-
-            // Открытие модального окна при клике на START
-            startButton.addEventListener('click', function() {
-                startModal.classList.add('active');
-            });
-
-            // Закрытие модального окна
-            closeModalBtn.addEventListener('click', closeModal);
-
-            // Закрытие при клике вне модального окна
-            startModal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeModal();
-                }
-            });
-
-            // Выбор "Заполню поля сам"
-            selfFillBtn.addEventListener('click', function() {
-                closeModal();
-                switchTab(this.getAttribute('data-tab'));
-            });
-
-            // Выбор "Помощь менеджера в Telegram"
-            helpFillBtn.addEventListener('click', function() {
-                closeModal();
-                window.open('https://t.me/leonidsupv', '_blank');
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Получаем элементы
-            const usernameEl = document.getElementById('username');
-            const editBtn = document.querySelector('.edit-btn');
-            const editForm = document.querySelector('.edit-name-form');
-            const nameInput = document.getElementById('name-input');
-            const saveBtn = document.querySelector('.save-btn');
-            const cancelBtn = document.querySelector('.cancel-btn');
-            
-            // Загружаем имя из localStorage
-            const savedName = localStorage.getItem('supVoyageUsername');
-            if (savedName) {
-                usernameEl.textContent = savedName;
-            }
-            
-            // Обработчик клика на кнопку редактирования
-            editBtn.addEventListener('click', function() {
-                // Показываем форму редактирования
-                usernameEl.style.display = 'none';
-                editBtn.style.display = 'none';
-                editForm.style.display = 'flex';
-                
-                // Устанавливаем текущее имя в инпут
-                nameInput.value = usernameEl.textContent;
-                nameInput.focus();
-            });
-            
-            // Сохранение имени
-            saveBtn.addEventListener('click', function() {
-                const newName = nameInput.value.trim();
-                if (newName) {
-                    usernameEl.textContent = newName;
-                    localStorage.setItem('supVoyageUsername', newName);
-                }
-                hideEditForm();
-            });
-            
-            // Отмена редактирования
-            cancelBtn.addEventListener('click', hideEditForm);
-            
-            // Сохранение при нажатии Enter
-            nameInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    saveBtn.click();
-                }
-            });
-            
-            // Функция скрытия формы редактирования
-            function hideEditForm() {
-                usernameEl.style.display = 'block';
-                editBtn.style.display = 'block';
-                editForm.style.display = 'none';
-            }
-        });
-    </script>
-
     <script src="./src/js/qrHandler.js"></script>
     <script src="./src/js/statusOpenNews.js"></script>
     <script src="./src/js/slider.js"></script>
-    <script src="https://unpkg.com/html5-qrcode"></script>
-
 </body>
 </html>
