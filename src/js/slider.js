@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Генерация дополнительных частиц
 const particlesBg = document.getElementById('particles-js');
-for (let i = 0; i < 30; i++) {
+for (let i = 0; i < 35; i++) {
     const particle = document.createElement('span');
     particle.className = 'particle';
     particle.style.left = `${Math.random() * 100}%`;
