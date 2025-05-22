@@ -24,6 +24,11 @@
             
             <h2>Главная</h2>
 
+            <!-- Статус времени -->
+            <div id="closedNotification" class="closed-notification" style="display: none;">
+                Сейчас мы закрыты, приходите завтра
+            </div>
+
             <div class="profile-news" id="profileNews">
                 <div class="profile-text">
                     <div class="name-edit-wrapper">
@@ -138,14 +143,8 @@
         <div id="start" class="tab-content">
 
             <h2 class="catalog-title">Бронь</h2>
-            <div class="code-search-wrapper sticky-search full-width">
-                <div class="code-search-row">
-                    <input type="text" class="code-search" id="codeSearchInput" placeholder="Введите код (например, sv-001-r-03)">
-                    <button class="scan-button" id="infoToggle" onclick="toggleInfo()">i</button>
-                </div>
-                <div id="infoMessage" class="info-message" style="display: none;">Привет, у меня всё хорошо</div>
-                <p id="searchResult" class="search-result"></p>
-            </div>
+
+            <div class="code-search-wrapper" style="display: none;"></div>
 
             <!-- Каталог товаров -->
             <div class="catalog-container">
@@ -153,11 +152,11 @@
                 <div class="catalog-grid">
                     <div class="catalog-item" onclick="showProductCard('sv-001-w-01')">
                         <img src="https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png" alt="Black Samurai">
-            <p>Black Samurai</p>
+                        <p>Black Samurai</p>
                     </div>
                     <div class="catalog-item" onclick="showProductCard('sv-001-r-01')">
                         <img src="https://i.ibb.co/k22N7Q8c/De-Watermark-ai-1747319685673.png" alt="Dark Queen">
-            <p>Dark Queen</p>
+                        <p>Dark Queen</p>
                     </div>
                 </div>
 

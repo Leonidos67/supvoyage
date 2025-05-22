@@ -198,3 +198,30 @@ document.addEventListener('DOMContentLoaded', function() {
     // Инициализация
     handleScroll(window.scrollY || window.pageYOffset);
 });
+
+// Статус времени
+function updateStatus() {
+    const notification = document.getElementById('closedNotification');
+    
+    // Получаем текущий час по Москве
+    const currentHour = new Date().toLocaleString("ru-RU", {
+        timeZone: "Europe/Moscow",
+        hour: 'numeric',
+        hour12: false
+    });
+    
+    // Проверяем время работы (9:00-21:00)
+    const isOpen = currentHour >= 9 && currentHour < 21;
+    
+    if (!isOpen) {
+        notification.style.display = 'block';
+    } else {
+        notification.style.display = 'none';
+    }
+}
+
+// Вызываем при загрузке и обновляем каждую минуту
+document.addEventListener('DOMContentLoaded', function() {
+    updateStatus();
+    setInterval(updateStatus, 60000); // Обновлять каждую минуту
+});
