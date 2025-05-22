@@ -7,11 +7,33 @@ function toggleInfo() {
 }
 
 function shareProduct() {
-    const title = document.querySelector('.product-header h4')?.textContent || 'Товар';
+    const shareText = "Берите в прокат сап-борды вместе со мной в SupVoyage. Доставим сап в течении 30 минут после заявки \nt.me/testshoptests_bot/app";
+    
     if (navigator.share) {
-        navigator.share({ title, url: location.href });
+        navigator.share({
+            title: 'SupVoyage - Прокат сап-бордов',
+            text: shareText,
+            url: 'https://t.me/testshoptests_bot/app'
+        }).catch(err => {
+            console.log('Ошибка при попытке поделиться:', err);
+            fallbackShare(shareText);
+        });
     } else {
-        alert('Поделиться можно через меню браузера');
+        fallbackShare(shareText);
+    }
+}
+
+function fallbackShare(text) {
+    // Для браузеров без поддержки Web Share API
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert('Текст скопирован в буфер обмена:\n\n' + text);
+        }).catch(err => {
+            console.log('Не удалось скопировать текст:', err);
+            prompt('Скопируйте этот текст:', text);
+        });
+    } else {
+        prompt('Скопируйте этот текст:', text);
     }
 }
 
