@@ -7,13 +7,13 @@ function toggleInfo() {
 }
 
 function shareProduct() {
-    const shareText = "Берите в прокат сап-борды вместе со мной в SupVoyage. Доставим сап в течении 30 минут после заявки \nt.me/testshoptests_bot/app";
+    const shareText = "Берите в прокат сап-борды вместе со мной в SupVoyage. Доставим сап в течении 30 минут после заявки t.me/testshoptests_bot/app";
     
     if (navigator.share) {
         navigator.share({
-            title: 'SupVoyage - Прокат сап-бордов',
+            title: 'SupVoyage',
             text: shareText,
-            url: 'https://t.me/testshoptests_bot/app'
+            url: 'Берите в прокат сап-борды вместе со мной в SupVoyage. Доставим сап в течении 30 минут после заявки t.me/testshoptests_bot/app https://t.me/testshoptests_bot/app'
         }).catch(err => {
             console.log('Ошибка при попытке поделиться:', err);
             fallbackShare(shareText);
