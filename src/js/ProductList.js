@@ -7,20 +7,50 @@ function toggleInfo() {
 }
 
 function shareProduct() {
-    const shareText = "Берите в прокат сап-борды вместе со мной в SupVoyage. Доставим сап в течении 30 минут после заявки t.me/testshoptests_bot/app";
-    
+    const shareData = {
+        title: 'SupVoyage - Прокат сап-бордов',
+        text: 'Берите в прокат сап-борды вместе со мной в SupVoyage. Доставим сап в течении 30 минут после заявки',
+        url: 'https://t.me/testshoptests_bot/app'
+    };
+
     if (navigator.share) {
-        navigator.share({
-            title: 'SupVoyage',
-            text: shareText,
-            url: 'Берите в прокат сап-борды вместе со мной в SupVoyage. Доставим сап в течении 30 минут после заявки t.me/testshoptests_bot/app https://t.me/testshoptests_bot/app'
-        }).catch(err => {
-            console.log('Ошибка при попытке поделиться:', err);
-            fallbackShare(shareText);
-        });
+        // Для поддерживающих браузеров (мобильные устройства)
+        navigator.share(shareData)
+            .then(() => console.log('Успешно поделились'))
+            .catch(err => {
+                console.log('Ошибка при попытке поделиться:', err);
+                copyToClipboard(`${shareData.text}\n\n${shareData.url}`);
+            });
     } else {
-        fallbackShare(shareText);
+        // Для десктопных браузеров
+        copyToClipboard(`${shareData.text}\n\n${shareData.url}`);
     }
+}
+
+function copyToClipboard(text) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text)
+            .then(() => alert('Скопировано в буфер обмена:\n\n' + text))
+            .catch(() => fallbackCopy(text));
+    } else {
+        fallbackCopy(text);
+    }
+}
+
+function fallbackCopy(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    
+    try {
+        document.execCommand('copy');
+        alert('Скопировано в буфер обмена:\n\n' + text);
+    } catch (err) {
+        prompt('Скопируйте этот текст вручную:', text);
+    }
+    
+    document.body.removeChild(textarea);
 }
 
 function fallbackShare(text) {
