@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SupVoyage | Mini App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="./src/css/style.css">
+    <link rel="stylesheet" href="./src/css/styleCard.css">
+    <style>
+        /* Обновлённые стили для модального окна */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: radial-gradient(#1a1a1a, #0a0a0a);
+            border-radius: 15px 15px 0 0;
+            padding: 25px;
+            width: 100%;
+            max-width: 100%;
+            box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.5);
+            transform: translateY(100%);
+            transition: all 0.3s ease;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+            font-size: 20px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .modal-btn {
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            background: #fff;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+        
+        .modal-btn.close-btn {
+            background: linear-gradient(#ff6b6b, #ff8787);
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Контент вкладок -->
+    <div class="particles-bg" id="particles-js"></div>
+    
+    <div class="app-content">
+
+        <!-- home content -->
+        <div id="home" class="tab-content active">
+            
+            <h2>Главная</h2>
+
+            <div class="profile-news" id="profileNews">
+                <div class="profile-text">
+                    <div class="name-edit-wrapper">
+                        <h3 style="margin-left: 0px;">Загляните в профиль</h3>
+                    </div>
+                    <p style="margin-left: 0px; color: #fff; max-width: 95%;">Каждый месяц проходят интересные конкурсы и розыгрыши. Посмотрите что идет сейчас</p>
+                </div>
+                <div class="profile-icon">
+                    <img style="margin-right: 10px; cursor: pointer;" src="./assets/close.png" width="20px" height="20px" alt="Закрыть уведомление" id="closeButton">
+                </div>
+            </div>
+            
+            <div class="center-container">
+                <div class="pulse-container">
+                    <div class="pulse-outer"></div>
+                    <div class="pulse-outer"></div>
+                    <div class="pulse-outer"></div>
+                    <button class="main-button" id="startButton">START</button>
+                </div>
+            </div>
+            
+            <img class="scroll-down-news-btn" src="./assets/gif/arrow-scrolling.gif" width="32px" height="32px" alt="arrow-scrolling">
+            
+            <!-- Горизонтально прокручиваемые карточки товаров -->
+            <div class="products-container">
+            
+                <div class="container-information-weather_cashback">
+                    <div class="block-info block-info-weather">
+                        <div class="block-header">
+                            <h4>Весенние задачи</h4>
+                            <span class="arrow-icon">
+                                <img class="arrow-icon-img" src="./assets/arrow-white.png" alt="">
+                            </span>
+                        </div>
+                        <p class="balance-text">Баланс: 0</p>
+                    </div>
+                    <div class="block-info block-info-cashback">
+                        <div class="block-header">
+                            <h4>Мои баллы</h4>
+                            <span class="arrow-icon">
+                                <img class="arrow-icon-img" src="./assets/arrow-white.png" alt="">
+                            </span>
+                        </div>
+                        <p class="balance-text">Баланс: 0</p>
+                    </div>
+                </div>
+
+                <h3 class="products-title">Сезонные маршруты</h3>
+
+                <div class="products-scroll">
+                    
+                    <!--<div class="product-card"></div>-->
+                    
+                    <div class="product-card">
+                        <img src="./assets/product1.jpg" alt="Товар 1" class="product-image">
+                        <div class="product-content">
+                            <h3 class="product-title">Название товара 1</h3>
+                            <p class="product-description">Краткое описание товара и его основные характеристики</p>
+                            <div class="product-footer">
+                                <span class="product-price">1 999 ₽</span>
+                                <span class="product-hashtag">#популярное</span>
+                                <img src="./assets/bookmark.png" alt="В закладки" class="product-bookmark">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="./assets/product2.jpg" alt="Товар 2" class="product-image">
+                        <div class="product-content">
+                            <h3 class="product-title">Название товара 2</h3>
+                            <p class="product-description">Краткое описание товара и его основные характеристики</p>
+                            <div class="product-footer">
+                                <span class="product-price">2 499 ₽</span>
+                                <span class="product-hashtag">#новинка</span>
+                                <img src="./assets/bookmark.png" alt="В закладки" class="product-bookmark">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="./assets/product3.jpg" alt="Товар 3" class="product-image">
+                        <div class="product-content">
+                            <h3 class="product-title">Название товара 3</h3>
+                            <p class="product-description">Краткое описание товара и его основные характеристики</p>
+                            <div class="product-footer">
+                                <span class="product-price">3 299 ₽</span>
+                                <span class="product-hashtag">#акция</span>
+                                <img src="./assets/bookmark.png" alt="В закладки" class="product-bookmark">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="./assets/product4.jpg" alt="Товар 4" class="product-image">
+                        <div class="product-content">
+                            <h3 class="product-title">Название товара 4</h3>
+                            <p class="product-description">Краткое описание товара и его основные характеристики</p>
+                            <div class="product-footer">
+                                <span class="product-price">1 799 ₽</span>
+                                <span class="product-hashtag">#хит</span>
+                                <img src="./assets/bookmark.png" alt="В закладки" class="product-bookmark">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+        </div>
+
+        <!-- start content -->
+        <div id="start" class="tab-content">
+
+            <h2>Бронь</h2>
+
+            
+
+        </div>
+
+        <!-- menu content -->
+        <div id="menu" class="tab-content">
+            
+            <h2>Профиль</h2>
+
+            <div class="profile-header">
+                <div class="profile-ssu-info">
+                    <div>
+                        <div class="profile-icon">
+                            <img src="./assets/gif/angry-duck.gif" width="40px" height="40px" alt="">
+                        </div>
+                    </div>
+                    <div class="profile-text">
+                        <div class="name-edit-wrapper">
+                            <h3 id="username">Гость</h3>
+                            <button class="edit-btn">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                        </div>
+                        <p>Краснодарский Край, Сочи</p>
+                    </div>
+                </div>
+
+                <!-- Скрытая форма для редактирования -->
+                <div class="edit-name-form" style="display: none;">
+                    <input type="text" id="name-input" class="name-input">
+                    <button class="save-btn">Сохранить</button>
+                    <button class="cancel-btn">Х</button>
+                </div>
+            
+            </div>
+
+            <!-- missions -->
+            <div class="profile-header bc-first-slide">
+                
+                <div class="profile-missions">
+                    <div>
+                        <h3 style="text-align: left; padding: 12px;">Мои задания</h3>
+                        <div class="profile-missions-sloy">
+                            <div>
+                                <h3>Заданий нет!</h3>
+                                <div>
+                                    <img src="./assets/missions.png" class="img-missions" alt="Мои задания">
+                                    <p style="text-align: left; margin-left: 0px; color: #fff; max-width: 95%;">Каждый месяц — новые задания! Выполняйте, собирайте sup-кэш и получайте награды. Вперёд к победам!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- menu -->
+            <div class="profile-header bc-first-slide">
+
+                <div class="profile-info" onclick="window.location.href='./err/'">
+                    <div class="profile-text">
+                        <div class="name-edit-wrapper">
+                            <h3 id="username">Акции и Промокоды</h3>
+                        </div>
+                    </div>
+                    <div class="profile-icon">
+                        <img src="./assets/promocode.png" width="24px" height="24px" alt="Акции и Промокоды">
+                    </div>
+                </div>
+                
+                <div class="profile-info" onclick="window.location.href='https://t.me/leonidsupv'">
+                    <div class="profile-text">
+                        <div class="name-edit-wrapper">
+                            <h3 id="username">Чат поддержки</h3>
+                        </div>
+                    </div>
+                    <div class="profile-icon">
+                        <img src="./assets/supports.png" width="24px" height="24px" alt="Чат поддержки">
+                    </div>
+                </div>
+
+                <div class="profile-info" onclick="window.location.href='./err/'">
+                    <div class="profile-text">
+                        <div class="name-edit-wrapper">
+                            <h3 id="username">Уведомления</h3>
+                        </div>
+                    </div>
+                    <div class="profile-icon">
+                        <img src="./assets/promocode.png" width="24px" height="24px" alt="Уведомления">
+                    </div>
+                </div>
+            
+            </div>
+
+            <!-- version -->
+            <div>
+                <p class="text-version">v1.1.5</p>
+            </div>
+            
+        </div>
+
+        <div style="margin-top: 140px;"></div>
+
+    </div>
+
+    <!-- Модальное окно -->
+    <div class="modal-overlay" id="startModal">
+        <div class="modal-content">
+            <h3 class="modal-title">Бронь сапа</h3>
+            <p style="margin-bottom: 20px">Вы можете заполнить форму, внести предоплату и уже через час получить сап</p>
+            <div class="modal-buttons">
+                <button class="modal-btn" id="selfFillBtn" data-tab="start">Заполню поля сам</button>
+                <button class="modal-btn" id="helpFillBtn">Нужна помощь в бронировании</button>
+                <script>
+                    
+                </script>
+                <button class="modal-btn close-btn" id="closeModalBtn">Отменить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Нижнее меню -->
+    <nav class="bottom-menu">
+        <a href="#" class="menu-item active" data-tab="home">
+            <i class="fas fa-home"></i>
+            <span>home</span>
+        </a>
+        <a href="#" class="menu-item" data-tab="start">
+            <i class="fas fa-play bc-menu-icon"></i>
+            <span>start</span>
+        </a>
+        <a href="#" class="menu-item" data-tab="menu">
+            <i class="fa-solid fa-bars"></i>
+            <span>menu</span>
+        </a>
+    </nav>
+
+    <button class="scroll-top-btn" id="scrollTopBtn" title="Наверх">Наверх</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuItems = document.querySelectorAll('.menu-item');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const startButton = document.getElementById('startButton');
+            const supForm = document.getElementById('supForm');
+            const startModal = document.getElementById('startModal');
+            const selfFillBtn = document.getElementById('selfFillBtn');
+            const helpFillBtn = document.getElementById('helpFillBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+
+            // Функция переключения вкладок
+            function switchTab(tabId) {
+                menuItems.forEach(i => i.classList.remove('active'));
+                tabContents.forEach(tab => tab.classList.remove('active'));
+                
+                const menuItem = document.querySelector(`.menu-item[data-tab="${tabId}"]`);
+                if (menuItem) menuItem.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            }
+
+            // Функция закрытия модального окна
+            function closeModal() {
+                startModal.classList.remove('active');
+            }
+
+            // Переключение вкладок через меню
+            menuItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    switchTab(this.getAttribute('data-tab'));
+                });
+            });
+
+            // Открытие модального окна при клике на START
+            startButton.addEventListener('click', function() {
+                startModal.classList.add('active');
+            });
+
+            // Закрытие модального окна
+            closeModalBtn.addEventListener('click', closeModal);
+
+            // Закрытие при клике вне модального окна
+            startModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+
+            // Выбор "Заполню поля сам"
+            selfFillBtn.addEventListener('click', function() {
+                closeModal();
+                switchTab(this.getAttribute('data-tab'));
+            });
+
+            // Выбор "Помощь менеджера в Telegram"
+            helpFillBtn.addEventListener('click', function() {
+                closeModal();
+                window.open('https://t.me/leonidsupv', '_blank');
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Получаем элементы
+            const usernameEl = document.getElementById('username');
+            const editBtn = document.querySelector('.edit-btn');
+            const editForm = document.querySelector('.edit-name-form');
+            const nameInput = document.getElementById('name-input');
+            const saveBtn = document.querySelector('.save-btn');
+            const cancelBtn = document.querySelector('.cancel-btn');
+            
+            // Загружаем имя из localStorage
+            const savedName = localStorage.getItem('supVoyageUsername');
+            if (savedName) {
+                usernameEl.textContent = savedName;
+            }
+            
+            // Обработчик клика на кнопку редактирования
+            editBtn.addEventListener('click', function() {
+                // Показываем форму редактирования
+                usernameEl.style.display = 'none';
+                editBtn.style.display = 'none';
+                editForm.style.display = 'flex';
+                
+                // Устанавливаем текущее имя в инпут
+                nameInput.value = usernameEl.textContent;
+                nameInput.focus();
+            });
+            
+            // Сохранение имени
+            saveBtn.addEventListener('click', function() {
+                const newName = nameInput.value.trim();
+                if (newName) {
+                    usernameEl.textContent = newName;
+                    localStorage.setItem('supVoyageUsername', newName);
+                }
+                hideEditForm();
+            });
+            
+            // Отмена редактирования
+            cancelBtn.addEventListener('click', hideEditForm);
+            
+            // Сохранение при нажатии Enter
+            nameInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    saveBtn.click();
+                }
+            });
+            
+            // Функция скрытия формы редактирования
+            function hideEditForm() {
+                usernameEl.style.display = 'block';
+                editBtn.style.display = 'block';
+                editForm.style.display = 'none';
+            }
+        });
+    </script>
+
+    <script src="./src/js/qrHandler.js"></script>
+    <script src="./src/js/statusOpenNews.js"></script>
+    <script src="./src/js/slider.js"></script>
+</body>
+</html>
