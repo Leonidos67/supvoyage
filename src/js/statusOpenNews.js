@@ -1,7 +1,7 @@
 // CLOSE NEWS PROFILE INFO
-// if (localStorage.getItem('profileNewsClosed') === 'true') {
-//     document.getElementById('profileNews').style.display = 'none';
-// }
+if (localStorage.getItem('profileNewsClosed') === 'true') {
+    document.getElementById('profileNews').style.display = 'none';
+}
 
 document.getElementById('closeButton').addEventListener('click', function() {
     document.getElementById('profileNews').style.display = 'none';
