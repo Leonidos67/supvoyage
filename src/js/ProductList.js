@@ -14,7 +14,6 @@ function shareProduct() {
     };
 
     if (navigator.share) {
-        // Для поддерживающих браузеров (мобильные устройства)
         navigator.share(shareData)
             .then(() => console.log('Успешно поделились'))
             .catch(err => {
@@ -22,7 +21,6 @@ function shareProduct() {
                 copyToClipboard(`${shareData.text}\n\n${shareData.url}`);
             });
     } else {
-        // Для десктопных браузеров
         copyToClipboard(`${shareData.text}\n\n${shareData.url}`);
     }
 }
@@ -53,20 +51,6 @@ function fallbackCopy(text) {
     document.body.removeChild(textarea);
 }
 
-function fallbackShare(text) {
-    // Для браузеров без поддержки Web Share API
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
-            alert('Текст скопирован в буфер обмена:\n\n' + text);
-        }).catch(err => {
-            console.log('Не удалось скопировать текст:', err);
-            prompt('Скопируйте этот текст:', text);
-        });
-    } else {
-        prompt('Скопируйте этот текст:', text);
-    }
-}
-
 function showProductCard(code) {
     document.querySelector('.catalog-container').style.display = 'none';
     document.querySelector('.code-search-wrapper').style.display = 'none';
@@ -81,6 +65,9 @@ function showProductCard(code) {
     let isSup = false;
     let isVest = false;
     let isCase = false;
+    let selectedSize = '';
+    let vestCount = 0; // Счетчик добавленных жилетов
+    let caseAdded = false; // Флаг добавления чехла
 
     // Определяем тип товара
     if (parts[1] === '001') { // Сап
@@ -97,6 +84,7 @@ function showProductCard(code) {
     } else if (parts[1] === '002') { // Жилет
         isVest = true;
         const sizes = { s: 'Детский', m: 'Средний', l: 'Взрослый' };
+        selectedSize = parts[2];
         if (parts[2] === 's') {
             img = 'https://i.ibb.co/pvgNWYJd/image.png';
         } else if (parts[2] === 'm') {
@@ -173,6 +161,9 @@ function showProductCard(code) {
                         </select>
                     </div>
                 </div>
+                <div id="additionalItemsInfo" style="margin: 10px 0; display: none;">
+                    <!-- Здесь будет отображаться информация о добавленных товарах -->
+                </div>
                 <button class="book-button" onclick="showBookingForm('${title}', document.querySelector('.price-value').textContent, '${isCase ? 'free' : 'paid'}')">
                     ${isCase ? 'Получить бесплатно' : 'Забронировать'}
                 </button>
@@ -184,20 +175,43 @@ function showProductCard(code) {
         html += `
             <div class="additional-products">
                 <h4 style="margin: 20px 0 10px; text-align: center;">Дополнительно</h4>
-                <div class="additional-product" onclick="if(confirm('Вы уверены, что хотите добавить жилет?')) showProductCard('sv-002-m-01')">
-                    <img src="https://i.ibb.co/27fJB3f9/image.png" alt="Жилет">
-                    <p>Жилет (Средний)</p>
-                    <span class="price">500 ₽</span>
+                <div class="additional-product">
+                    <img src="https://i.ibb.co/pvgNWYJd/image.png" alt="Жилет">
+                    <div style="flex-grow: 1;">
+                        <p style="margin: 0 0 5px 0;">Жилет</p>
+                        <div class="size-selector">
+                            <label class="size-option">
+                                <input type="radio" name="vestSize" value="s" ${selectedSize === 's' ? 'checked' : ''}>
+                                <span class="size-label">Детский</span>
+                            </label>
+                            <label class="size-option">
+                                <input type="radio" name="vestSize" value="m" ${selectedSize === 'm' ? 'checked' : ''}>
+                                <span class="size-label">Средний</span>
+                            </label>
+                            <label class="size-option">
+                                <input type="radio" name="vestSize" value="l" ${selectedSize === 'l' ? 'checked' : ''}>
+                                <span class="size-label">Взрослый</span>
+                            </label>
+                        </div>
+                        <div id="vestCounter" style="margin-top: 5px; font-size: 12px; color: #72a8a8; display: none;">
+                            Добавлено: <span id="vestCount">0</span>
+                        </div>
+                    </div>
+                    <button class="add-button" onclick="addVestToOrder()">+</button>
                 </div>
-                <div class="additional-product" onclick="if(confirm('Вы уверены, что хотите добавить чехол?')) showProductCard('sv-003-01')">
+                <div class="additional-product">
                     <img src="https://ir.ozone.ru/s3/multimedia-0/c1000/6061656552.jpg" alt="Чехол">
-                    <p>Чехол для телефона</p>
-                    <span class="price">Бесплатно</span>
+                    <div style="flex-grow: 1;">
+                        <p style="margin: 0 0 5px 0;">Чехол для телефона</p>
+                        <div id="caseInfo" style="font-size: 12px; color: #72a8a8; display: none;">
+                            Добавлен
+                        </div>
+                    </div>
+                    <button class="add-button" onclick="addCaseToOrder()" ${caseAdded ? 'disabled style="opacity: 0.5;"' : ''}>+</button>
                 </div>
             </div>
         `;
     } else if (isVest || isCase) {
-        // Блокируем бронирование жилета/чехла без сапа
         html += `
             <div class="restriction-notice">
                 <p>⚠️ Этот товар можно забронировать только вместе с сапом</p>
@@ -206,7 +220,7 @@ function showProductCard(code) {
         `;
     }
 
-    html += `</div>`; // Закрываем основной контейнер
+    html += `</div>`;
 
     document.getElementById('productCardContainer').innerHTML = html;
 
@@ -226,7 +240,6 @@ function showProductCard(code) {
             margin-bottom: 10px;
             background: rgba(255,255,255,0.1);
             border-radius: 8px;
-            cursor: pointer;
             transition: transform 0.2s;
         }
         .additional-product:hover {
@@ -240,14 +253,72 @@ function showProductCard(code) {
             border-radius: 6px;
             margin-right: 10px;
         }
-        .additional-product p {
-            flex-grow: 1;
-            margin: 0;
-            font-size: 14px;
+        .size-selector {
+            display: flex;
+            gap: 8px;
+            margin-top: 5px;
         }
-        .additional-product .price {
-            font-weight: bold;
-            color: #72a8a8;
+        .size-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .size-option input[type="radio"] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #72a8a8;
+            border-radius: 50%;
+            outline: none;
+            margin-right: 5px;
+            position: relative;
+            cursor: pointer;
+        }
+        .size-option input[type="radio"]:checked {
+            background-color: #72a8a8;
+        }
+        .size-option input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+        }
+        .size-label {
+            font-size: 12px;
+            color: #ddd;
+        }
+        .add-button {
+            background: #72a8a8;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .add-button:hover {
+            transform: scale(1.1);
+            background: #5d8f8f;
+        }
+        .add-button:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        #additionalItemsInfo {
+            background: rgba(114, 168, 168, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
         }
         .restriction-notice {
             margin-top: 20px;
@@ -288,7 +359,7 @@ function showProductCard(code) {
             updatePrice();
         } else {
             customDateContainer.style.display = 'none';
-            priceValue.textContent = `${this.value} ₽`;
+            updatePrice();
         }
     });
 
@@ -297,18 +368,23 @@ function showProductCard(code) {
     });
 
     function updatePrice() {
-        if (durationSelect.value !== 'custom') {
-            priceValue.textContent = `${durationSelect.value} ₽`;
-            return;
+        let price = 0;
+        
+        if (durationSelect.value === 'custom') {
+            const duration = parseInt(customDurationInput.value);
+            const isDays = customDurationType.value === 'days';
+            price = isDays ? basePrice * 10 * duration : basePrice * duration;
+        } else {
+            price = parseInt(durationSelect.value);
         }
 
-        const duration = parseInt(customDurationInput.value);
-        const isDays = customDurationType.value === 'days';
-        
-        let price = isDays ? basePrice * 10 * duration : basePrice * duration;
-        if (isCase) price = 0;
+        // Добавляем стоимость жилетов (500 руб за каждый)
+        price += vestCount * 500;
 
         priceValue.textContent = `${price} ₽`;
+        
+        // Обновляем информацию о добавленных товарах
+        updateAdditionalItemsInfo();
     }
 
     function formatDate(date) {
@@ -316,10 +392,245 @@ function showProductCard(code) {
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
         return `${day}/${month}`;
     }
+
+    function updateAdditionalItemsInfo() {
+        const infoContainer = document.getElementById('additionalItemsInfo');
+        let infoHtml = '';
+        
+        if (vestCount > 0 || caseAdded) {
+            infoContainer.style.display = 'block';
+            
+            if (vestCount > 0) {
+                const selectedSize = document.querySelector('input[name="vestSize"]:checked').value;
+                const sizeNames = { s: 'Детский', m: 'Средний', l: 'Взрослый' };
+                infoHtml += `<div>Жилет (${sizeNames[selectedSize]}): ${vestCount} × 500 ₽ = ${vestCount * 500} ₽</div>`;
+            }
+            
+            if (caseAdded) {
+                infoHtml += `<div>Чехол для телефона: бесплатно</div>`;
+            }
+            
+            infoContainer.innerHTML = infoHtml;
+        } else {
+            infoContainer.style.display = 'none';
+        }
+    }
+
+    // Делаем функции доступными глобально для кнопок
+    window.addVestToOrder = function() {
+        vestCount++;
+        document.getElementById('vestCounter').style.display = 'block';
+        document.getElementById('vestCount').textContent = vestCount;
+        updatePrice();
+        
+        // Показываем уведомление
+        const selectedSize = document.querySelector('input[name="vestSize"]:checked').value;
+        const sizeNames = { s: 'Детский', m: 'Средний', l: 'Взрослый' };
+        alert(`Вы добавили ${vestCount} жилет (${sizeNames[selectedSize]})`);
+    };
+
+    window.addCaseToOrder = function() {
+        if (!caseAdded) {
+            caseAdded = true;
+            document.getElementById('caseInfo').style.display = 'block';
+            document.querySelector('.additional-product:nth-child(2) .add-button').disabled = true;
+            document.querySelector('.additional-product:nth-child(2) .add-button').style.opacity = '0.5';
+            updatePrice();
+            alert('Вы добавили чехол для телефона');
+        }
+    };
+}
+
+// ... (остальные функции остаются без изменений)
+
+function showBookingForm(productTitle, price) {
+    // Получаем информацию о добавленных товарах
+    const vestCount = typeof window.vestCount !== 'undefined' ? window.vestCount : 0;
+    const caseAdded = typeof window.caseAdded !== 'undefined' ? window.caseAdded : false;
+    const selectedSize = document.querySelector('input[name="vestSize"]:checked') ? 
+        document.querySelector('input[name="vestSize"]:checked').value : '';
+    const sizeNames = { s: 'Детский', m: 'Средний', l: 'Взрослый' };
+
+    if (price === '0 ₽') {
+        const container = document.createElement('div');
+        container.innerHTML = `
+            <div class="product-info-result">
+                <h4 style="margin-bottom: 10px;">Вы выбрали: ${productTitle}</h4>
+                <p>Этот товар предоставляется бесплатно!</p>
+                <button onclick="goBack()" style="padding: 12px; width: 100%; background: #72a8a8; color: white; font-weight: bold; border: none; border-radius: 6px;">Вернуться</button>
+            </div>
+        `;
+        document.querySelector('.product-card-result').appendChild(container);
+        return;
+    }
+
+    const container = document.createElement('div');
+    container.innerHTML = `
+        <div class="product-info-result">
+            <h4 style="margin-bottom: 10px;">Вы выбрали: ${productTitle}</h4>
+            <form id="bookingForm">
+                <input type="text" id="userName" placeholder="Ваше имя" required style="margin-bottom: 10px; width: 100%; padding: 10px; border-radius: 6px; background: #111; color: white; border: 1px solid #444;">
+                <input type="text" id="userTelegram" required style="margin-bottom: 10px; width: 100%; padding: 10px; border-radius: 6px; background: #111; color: white; border: 1px solid #444;">
+                <input type="tel" id="userPhone" required style="margin-bottom: 10px; width: 100%; padding: 10px; border-radius: 6px; background: #111; color: white; border: 1px solid #444;">
+                <input type="hidden" id="productTitle" value="${productTitle}">
+                <input type="hidden" id="productPrice" value="${price}">
+                <input type="hidden" id="vestCount" value="${vestCount}">
+                <input type="hidden" id="vestSize" value="${selectedSize}">
+                <input type="hidden" id="caseAdded" value="${caseAdded}">
+                <button type="submit" class="book-button">Подтвердить бронирование</button>
+            </form>
+            <p id="bookingSuccess" style="display:none; color: #fff; margin-top: 10px; text-align: center;">Данные успешно отправлены!</p>
+        </div>
+    `;
+    document.querySelector('.product-card-result').appendChild(container);
+
+    const telegramInput = document.getElementById('userTelegram');
+    const phoneInput = document.getElementById('userPhone');
+    const durationSelect = document.querySelector('.duration-select');
+    const customInput = document.querySelector('.custom-duration-input');
+    const customType = document.querySelector('.custom-duration-type');
+
+    telegramInput.value = '@';
+    telegramInput.addEventListener('input', function () {
+        if (!this.value.startsWith('@')) {
+            this.value = '@' + this.value.replace(/^@*/, '');
+        }
+    });
+
+    phoneInput.value = '+7';
+    phoneInput.addEventListener('input', function () {
+        const digits = this.value.replace(/\D/g, '').slice(1, 11);
+        this.value = '+7' + digits;
+    });
+
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('userName').value.trim();
+        const telegram = telegramInput.value.trim();
+        const phone = phoneInput.value.trim();
+        const product = document.getElementById('productTitle').value;
+        const price = document.getElementById('productPrice').value;
+        const vestCount = parseInt(document.getElementById('vestCount').value);
+        const vestSize = document.getElementById('vestSize').value;
+        const caseAdded = document.getElementById('caseAdded').value === 'true';
+
+        const phoneRegex = /^\+7\d{10}$/;
+        const telegramRegex = /^@\w{3,}$/;
+
+        if (!phoneRegex.test(phone)) {
+            alert('Введите корректный номер телефона в формате +7XXXXXXXXXX (10 цифр)');
+            return;
+        }
+
+        if (!telegramRegex.test(telegram)) {
+            alert('Введите корректный Telegram, например @leo');
+            return;
+        }
+
+        let timeText = '';
+        if (durationSelect.value === 'custom') {
+            const amount = customInput.value;
+            const unit = customType.options[customType.selectedIndex].textContent;
+            timeText = `${amount} ${unit}`;
+        } else {
+            const label = durationSelect.options[durationSelect.selectedIndex].textContent;
+            timeText = label;
+        }
+
+        // Формируем полное сообщение
+        let message = `\uD83D\uDCC5 Новое бронирование\n\n\uD83D\uDC64 Имя: ${name}\n\uD83D\uDCAC Telegram: ${telegram}\n\u260E\uFE0F Телефон: ${phone}\n\uD83C\uDF0A Основной товар: ${product}\n\u23F0 Время: ${timeText}\n\uD83D\uDCB2 Цена: ${price}`;
+
+        // Добавляем информацию о жилетах
+        if (vestCount > 0) {
+            message += `\n\n\uD83D\uDC53 Жилеты: ${vestCount} × (${sizeNames[vestSize]}) = ${vestCount * 500} ₽`;
+        }
+
+        // Добавляем информацию о чехле
+        if (caseAdded) {
+            message += `\n\uD83D\uDCE6 Чехол для телефона: бесплатно`;
+        }
+
+        // Добавляем общую сумму
+        if (vestCount > 0) {
+            const totalPrice = parseInt(price.replace(/[^\d]/g, '')) + (vestCount * 500);
+            message += `\n\n\uD83D\uDCB0 Общая сумма: ${totalPrice} ₽`;
+        }
+
+        fetch("https://api.telegram.org/bot7914139182:AAHfGT-ckXITu6_DZNQtp0asA9_5yOCscqA/sendMessage", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: '-4940315390',
+                parse_mode: 'HTML',
+                text: message
+            })
+        })
+        .then(() => {
+            document.getElementById('bookingSuccess').style.display = 'block';
+            this.reset();
+            telegramInput.value = '@';
+            phoneInput.value = '+7';
+        })
+        .catch(err => {
+            alert('Ошибка отправки: ' + err.message);
+        });
+    });
+}
+
+// Функция добавления жилета к заказу
+function addVestToOrder() {
+    const selectedSize = document.querySelector('input[name="vestSize"]:checked').value;
+    const sizes = { s: 'Детский', m: 'Средний', l: 'Взрослый' };
+    const sizeName = sizes[selectedSize];
+    
+    // Получаем информацию о текущем заказе
+    const productTitle = document.querySelector('.product-header h4').textContent;
+    const duration = document.querySelector('.duration-select option:checked').textContent;
+    
+    // Формируем сообщение
+    const message = `✅ Добавлен жилет к заказу\n\nОсновной товар: ${productTitle}\nЖилет: ${sizeName}\nПериод: ${duration}`;
+    
+    // Отправляем в Telegram
+    sendTelegramNotification(message);
+    
+    // Уведомляем пользователя
+    alert(`Жилет (${sizeName}) добавлен к вашему заказу!`);
+}
+
+// Функция добавления чехла к заказу
+function addCaseToOrder() {
+    // Получаем информацию о текущем заказе
+    const productTitle = document.querySelector('.product-header h4').textContent;
+    const duration = document.querySelector('.duration-select option:checked').textContent;
+    
+    // Формируем сообщение
+    const message = `✅ Добавлен чехол к заказу\n\nОсновной товар: ${productTitle}\nЧехол для телефона\nПериод: ${duration}`;
+    
+    // Отправляем в Telegram
+    sendTelegramNotification(message);
+    
+    // Уведомляем пользователя
+    alert('Чехол для телефона добавлен к вашему заказу!');
+}
+
+// Функция отправки уведомления в Telegram
+function sendTelegramNotification(message) {
+    fetch("https://api.telegram.org/bot7914139182:AAHfGT-ckXITu6_DZNQtp0asA9_5yOCscqA/sendMessage", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: '-4940315390',
+            parse_mode: 'HTML',
+            text: message
+        })
+    })
+    .then(response => response.json())
+    .then(data => console.log('Уведомление отправлено:', data))
+    .catch(error => console.error('Ошибка отправки:', error));
 }
 
 function showBookingForm(productTitle, price) {
-
     if (price === '0 ₽') {
         const container = document.createElement('div');
         container.innerHTML = `
