@@ -1259,3 +1259,686 @@ body {
     font-size: 18px;
 }
 
+/**/
+/* Стили для каталога SUP */
+.sup-catalog {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 20px;
+    margin-top: 20px;
+}
+
+.sup-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.sup-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.sup-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.sup-item h3 {
+    padding: 15px 15px 5px;
+    font-size: 18px;
+    color: #fff;
+}
+
+.sup-item p {
+    padding: 0 15px 15px;
+    font-size: 14px;
+    color: #aaa;
+}
+
+/* Стили для формы бронирования */
+#bookingForm {
+    padding: 0;
+}
+
+.form-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.form-header h2 {
+    margin-left: 15px;
+    font-size: 20px;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.selected-sup {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.selected-sup img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.selected-sup h3 {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+#bookingDetails {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #444;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 16px;
+}
+
+.time-selection, .extras-selection {
+    margin: 30px 0;
+}
+
+.time-selection h3, .extras-selection h3 {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #fff;
+}
+
+.time-options {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding-bottom: 10px;
+    scrollbar-width: none;
+}
+
+.time-options::-webkit-scrollbar {
+    display: none;
+}
+
+.time-option {
+    flex: 0 0 auto;
+    padding: 10px 15px;
+    border-radius: 20px;
+    background: rgba(114, 168, 168, 0.2);
+    border: 1px solid #72a8a8;
+    color: #72a8a8;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.time-option.active {
+    background: #72a8a8;
+    color: #fff;
+}
+
+.extras-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.extra-select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #444;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 16px;
+}
+
+.extra-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.extra-checkbox input {
+    width: 18px;
+    height: 18px;
+}
+
+.total-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 0;
+    padding: 15px;
+    background: rgba(114, 168, 168, 0.1);
+    border-radius: 10px;
+    font-size: 18px;
+    color: #fff;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    border: none;
+    background: #72a8a8;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.submit-btn:hover {
+    background: #5d8f8f;
+}
+
+/* Иконка SUP для меню */
+.fa-sup::before {
+    content: "🏄";
+    font-style: normal;
+}
+
+/* Стили для формы бронирования */
+.form-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.8);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.form-header h2 {
+    margin-left: 15px;
+    font-size: 20px;
+    color: #fff;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.selected-sup {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.selected-sup img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.selected-sup h3 {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #fff;
+}
+
+#bookingDetails {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #444;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 16px;
+}
+
+.form-group input[readonly] {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ccc;
+}
+
+.time-selection, .extras-selection {
+    margin: 30px 0;
+}
+
+.time-selection h3, .extras-selection h3 {
+    margin-bottom: 15px;
+    font-size: 16px;
+    color: #fff;
+}
+
+.time-options {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding-bottom: 10px;
+    scrollbar-width: none;
+}
+
+.time-options::-webkit-scrollbar {
+    display: none;
+}
+
+.time-option {
+    flex: 0 0 auto;
+    padding: 10px 15px;
+    border-radius: 20px;
+    background: rgba(114, 168, 168, 0.2);
+    border: 1px solid #72a8a8;
+    color: #72a8a8;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.time-option.active {
+    background: #72a8a8;
+    color: #fff;
+}
+
+.extra-section {
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.extra-header {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    color: #fff;
+    font-size: 15px;
+}
+
+.vest-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.vest-item {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.vest-item img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.vest-item p {
+    margin: 5px 0;
+    color: #fff;
+    font-size: 14px;
+}
+
+.select-vest {
+    width: 100%;
+    padding: 8px;
+    border-radius: 20px;
+    background: #72a8a8;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.phone-case-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    color: #fff;
+    font-size: 15px;
+}
+
+.case-option {
+    padding: 8px 20px;
+    border-radius: 20px;
+    background: rgba(114, 168, 168, 0.2);
+    border: 1px solid #72a8a8;
+    color: #72a8a8;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.case-option.active {
+    background: #72a8a8;
+    color: #fff;
+}
+
+.total-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 0;
+    padding: 15px;
+    background: rgba(114, 168, 168, 0.1);
+    border-radius: 10px;
+    font-size: 18px;
+    color: #fff;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    border: none;
+    background: #72a8a8;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-bottom: 20px;
+}
+
+.submit-btn:hover {
+    background: #5d8f8f;
+}
+
+/* Стили для уведомления об успешной отправке */
+.success-notification {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s;
+}
+
+.success-content {
+    background: #1a1a1a;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    max-width: 80%;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.4s;
+}
+
+.success-icon {
+    font-size: 50px;
+    color: #4CAF50;
+    margin-bottom: 15px;
+}
+
+.success-content h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.success-content p {
+    font-size: 16px;
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+.success-btn {
+    padding: 10px 25px;
+    border-radius: 30px;
+    background: #72a8a8;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.success-btn:hover {
+    background: #5d8f8f;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to { 
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.product-image {
+    width: 100%;
+    height: auto; /* Убедитесь, что высота автоматически подстраивается */
+    object-fit: cover; /* Обеспечивает правильное отображение изображения */
+}
+
+/* Стили для формы бронирования */
+.selected-sup img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.counter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.counter-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #72a8a8;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#supCount {
+    width: 50px;
+    text-align: center;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.toggle-options {
+    display: flex;
+    gap: 10px;
+}
+
+.toggle-option {
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid #444;
+    background: rgba(255, 255, 255, 0.05);
+    color: #aaa;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.toggle-option.active {
+    background: #72a8a8;
+    color: white;
+    border-color: #72a8a8;
+}
+
+.vest-selection {
+    margin-top: 15px;
+}
+
+.vest-options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.vest-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.vest-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.vest-item p {
+    flex-grow: 1;
+    margin: 0;
+    font-size: 14px;
+}
+
+.vest-counter {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.vest-counter .counter-btn {
+    width: 25px;
+    height: 25px;
+    font-size: 14px;
+}
+
+.vest-count {
+    min-width: 20px;
+    text-align: center;
+}
+
+.selected-items {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.selected-items h4 {
+    margin: 0 0 10px 0;
+    font-size: 15px;
+    color: #72a8a8;
+}
+
+.items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.selected-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    background: rgba(114, 168, 168, 0.1);
+    border-radius: 5px;
+}
+
+.selected-item .item-name {
+    font-size: 14px;
+}
+
+.selected-item .item-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.selected-item .item-count {
+    font-size: 14px;
+    color: #72a8a8;
+}
+
+.selected-item .delete-item {
+    color: #ff6b6b;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}

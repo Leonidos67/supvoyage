@@ -576,7 +576,7 @@ function showBookingForm(productTitle, price) {
             alert('Ошибка отправки: ' + err.message);
         });
     });
-}
+}   
 
 // Функция добавления жилета к заказу
 function addVestToOrder() {
