@@ -210,8 +210,8 @@ function updateStatus() {
         hour12: false
     });
     
-    // Проверяем время работы (9:00-21:00)
-    const isOpen = currentHour >= 9 && currentHour < 21;
+    // Проверяем время работы (6:00-21:00)
+    const isOpen = currentHour >= 6 && currentHour < 24;
     
     if (!isOpen) {
         notification.style.display = 'block';

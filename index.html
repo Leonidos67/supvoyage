@@ -20,7 +20,7 @@
     <div class="app-content">
 
         <!-- home content -->
-        <div style="align-items: center;" id="home" class="tab-content active">
+        <div style="align-items: center;" id="home" class="tab-content">
             
             <h2>Главная</h2>
 
@@ -55,30 +55,47 @@
             <!-- Горизонтально прокручиваемые карточки товаров -->
             <div class="products-container">
             
-                <div class="container-information-weather_cashback">
-                    <div class="block-info block-info-weather">
+                <div class="container-information-first-block">
+                    
+                    <div class="block-info" style="margin-right: 10px;">
+                        <div class="block-header block-info-cashback">
+                            <h4>Кэшбек</h4>
+                            <!--<span class="arrow-icon">
+                                <img class="arrow-icon-img" src="./assets/arrow-white.png" alt="">
+                            </span>-->
+                        </div>
+                        <p class="balance-text">0</p>
+                    </div>
+
+                    <div class="block-info block-info-bonus">
                         <div class="block-header">
-                            <h4>Летние задачи</h4>
+                            <h4>Бонусы</h4>
+                            <!--<span class="arrow-icon">
+                                <img class="arrow-icon-img" src="./assets/arrow-white.png" alt="">
+                            </span>-->
+                        </div>
+                        <p class="balance-text">0</p>
+                    </div>
+
+                </div>
+            
+                <div class="container-information-second-block">
+                    
+                    <div class="block-info-2card">
+                        <div class="block-header block-info-cashback">
+                            <h4>Активных достижений</h4>
                             <span class="arrow-icon">
                                 <img class="arrow-icon-img" src="./assets/arrow-white.png" alt="">
                             </span>
                         </div>
-                        <p class="balance-text">Баланс: 0</p>
+                        <p class="balance-text">0</p>
                     </div>
-                    <div class="block-info block-info-cashback">
-                        <div class="block-header">
-                            <h4>Мои баллы</h4>
-                            <span class="arrow-icon">
-                                <img class="arrow-icon-img" src="./assets/arrow-white.png" alt="">
-                            </span>
-                        </div>
-                        <p class="balance-text">Баланс: 0</p>
-                    </div>
+
                 </div>
 
-                <h3 class="products-title">Сезонные маршруты</h3>
+                <!--<h3 class="products-title">Мои данные</h3>-->
 
-                <div class="products-scroll">
+                <!--<div class="products-scroll">
                     
                     <div class="product-card"></div>
                     
@@ -133,156 +150,44 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 
             </div>
 
         </div>
 
         <!-- start content -->
-        <div id="start" class="tab-content active" style="display: none;">
+        <div style="align-items: center; padding: 20px;" id="start" class="tab-content active">
             <h2 class="catalog-title">Выберите SUP</h2>
 
-            <div class="sup-catalog">
-                <div class="sup-item" data-id="black-samurai">
-                    <img src="https://i.ibb.co/0R7X1Lcv/De-Watermark-ai-1747319421780.png" alt="Black Samurai">
-                    <h3>Black Samurai</h3>
-                    <p>Классический черный SUP</p>
-                </div>
-                
-                <div class="sup-item" data-id="dark-queen">
-                    <img src="https://i.ibb.co/k22N7Q8c/De-Watermark-ai-1747319685673.png" alt="Dark Queen">
-                    <h3>Dark Queen</h3>
-                    <p>Элегантный красный SUP</p>
+            <!-- Горизонтальные вкладки -->
+            <div class="horizontal-tabs-wrapper">
+                <div class="horizontal-tabs" id="supTabs">
+                    <button class="tab-pill active" data-tab="sup1">SUP & Dawn</button>
+                    <button class="tab-pill" data-tab="sup2">SUP & Flow</button>
+                    <button class="tab-pill" data-tab="sup3">SUP & Love</button>
+                    <button class="tab-pill" data-tab="sup4">SUP & Sunset</button>
+                    <button class="tab-pill" data-tab="sup5">SUP & Party</button>
                 </div>
             </div>
-        </div>
 
-        <!--  -->
-        <div id="bookingForm" class="tab-content" style="display: none;">
-            <div class="form-header">
-                <button id="backToCatalog" class="back-button"><i class="fas fa-arrow-left"></i></button>
+            <!-- Контент вкладок -->
+            <div class="tab-content-section" id="sup1" style="display: block;">
+                <p>Контент для SUP 1</p>
             </div>
-            
-            <div class="selected-sup">
-                <img id="selectedSupImage" src="" alt="Выбранный SUP">
+            <div class="tab-content-section" id="sup2" style="display: none;">
+                <p>Контент для SUP 2</p>
             </div>
-            
-            <form id="bookingDetails">
-                <div class="form-group">
-                    <label for="userName">Ваше имя</label>
-                    <input type="text" id="userName" required placeholder="Введите ваше имя">
-                </div>
-                
-                <div class="form-group">
-                    <label for="userPhone">Телефон</label>
-                    <input type="tel" id="userPhone" required value="+7" readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label for="userTelegram">Telegram</label>
-                    <input type="text" id="userTelegram" required value="@" readonly placeholder="username">
-                </div>
-                
-                <div class="form-group">
-                    <label for="supCount">Количество сапов</label>
-                    <div class="counter">
-                        <button type="button" class="counter-btn minus">-</button>
-                        <input type="number" id="supCount" value="1" min="1" max="10">
-                        <button type="button" class="counter-btn plus">+</button>
-                    </div>
-                </div>
-                
-                <div class="time-selection">
-                    <h3>Выберите время</h3>
-                    <div class="time-options">
-                        <button type="button" class="time-option" data-hours="1" data-price="1000">1 час (1000₽)</button>
-                        <button type="button" class="time-option" data-hours="2" data-price="1800">2 часа (1800₽)</button>
-                        <button type="button" class="time-option" data-hours="3" data-price="1500">3 часа (1500₽)</button>
-                        <button type="button" class="time-option" data-hours="6" data-price="2500">6 часов (2500₽)</button>
-                        <button type="button" class="time-option" data-hours="24" data-price="3000">Весь день (3000₽)</button>
-                    </div>
-                </div>
-                
-                <div class="extras-selection">
-                    <h3>Дополнительно</h3>
-                    
-                    <div class="extra-section">
-                        <div class="extra-header" id="vestQuestion">
-                            <span>Нужен ли вам жилет?</span>
-                            <div class="toggle-options">
-                                <button type="button" class="toggle-option yes" data-value="yes">Да</button>
-                                <button type="button" class="toggle-option no active" data-value="no">Нет</button>
-                            </div>
-                        </div>
-                        
-                        <div class="vest-selection" id="vestSelection" style="display: none;">
-                            <div class="vest-options">
-                                <div class="vest-item">
-                                    <img src="https://i.ibb.co/pvgNWYJd/image.png" alt="Детский жилет">
-                                    <p>Детский</p>
-                                    <div class="vest-counter">
-                                        <button type="button" class="counter-btn minus">-</button>
-                                        <span class="vest-count" data-size="child">0</span>
-                                        <button type="button" class="counter-btn plus">+</button>
-                                    </div>
-                                </div>
-                                
-                                <div class="vest-item">
-                                    <img src="https://i.ibb.co/27fJB3f9/image.png" alt="Средний жилет">
-                                    <p>Средний</p>
-                                    <div class="vest-counter">
-                                        <button type="button" class="counter-btn minus">-</button>
-                                        <span class="vest-count" data-size="medium">0</span>
-                                        <button type="button" class="counter-btn plus">+</button>
-                                    </div>
-                                </div>
-                                
-                                <div class="vest-item">
-                                    <img src="https://i.ibb.co/3m65rmch/image.png" alt="Взрослый жилет">
-                                    <p>Взрослый</p>
-                                    <div class="vest-counter">
-                                        <button type="button" class="counter-btn minus">-</button>
-                                        <span class="vest-count" data-size="adult">0</span>
-                                        <button type="button" class="counter-btn plus">+</button>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="selected-items" id="selectedVests">
-                                <h4>Выбранные жилеты:</h4>
-                                <div class="items-list"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="extra-section">
-                        <div class="phone-case-option">
-                            <span>Мне нужен водонепроницаемый чехол для телефона</span>
-                            <button type="button" class="case-option" id="phoneCase">Да</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="total-price">
-                    <span>Итого:</span>
-                    <span id="totalAmount">0 ₽</span>
-                </div>
-                
-                <button type="submit" class="submit-btn">Отправить заявку</button>
-            </form>
-        </div>
+            <div class="tab-content-section" id="sup3" style="display: none;">
+                <p>Контент для SUP 3</p>
+            </div>
+            <div class="tab-content-section" id="sup4" style="display: none;">
+                <p>Контент для SUP 4</p>
+            </div>
+            <div class="tab-content-section" id="sup5" style="display: none;">
+                <p>Контент для SUP 5</p>
+            </div>
 
-        <!-- Уведомление об успешной отправке -->
-        <div id="successNotification" class="success-notification" style="display: none;">
-            <div class="success-content">
-                <div class="success-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <h3>Заявка отправлена!</h3>
-                <p>Мы свяжемся с вами в ближайшее время</p>
-                <button id="closeSuccess" class="success-btn">Хорошо</button>
-            </div>
         </div>
 
         <!-- menu content -->
@@ -406,11 +311,11 @@
 
     <!-- Нижнее меню -->
     <nav class="bottom-menu">
-        <a href="#" class="menu-item active" data-tab="home">
+        <a href="#" class="menu-item" data-tab="home">
             <i class="fas fa-home"></i>
             <span>home</span>
         </a>
-        <a href="#" class="menu-item" data-tab="start">
+        <a href="#" class="menu-item active" data-tab="start">
             <i class="fas fa-play bc-menu-icon"></i>
             <span>start</span>
         </a>
@@ -427,6 +332,7 @@
     <script src="./src/js/slider.js"></script>
     <script src="./src/js/ProductList.js"></script>
     <script src="./src/js/booking.js"></script>
+    <script src="./src/js/startContent.js"></script>
 
 </body>
 </html>
