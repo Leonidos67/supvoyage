@@ -103,7 +103,7 @@
                         <div class="path-item right"><span>сопровождение</span></div>
                         <div class="path-item"><span>фото</span></div>
                         <div class="path-item right"><span>водонепроницаемый чехол для телефона</span></div>
-                        <div class="path-item"><span>бутылочка воды/чай</span></div>
+                        <div class="path-item"><span>бутылочка воды</span></div>
                     </div>
                 </div>
 
@@ -207,19 +207,35 @@
                 <h3 class="products-title">Сап-борд без программы</h3>
 
                 <div class="faq-section">
-                    <h3 class="faq-title">Краткая информация</h3>
+                    
                     <div class="faq-item">
-                        <button class="faq-question">Что входит в стоимость?</button>
-                        <div class="faq-answer">Рекомендуем взять купальник, полотенце, головной убор и хорошее настроение!</div>
+                        <button class="faq-question active">
+                            Что входит в стоимость?
+                            <img src="./assets/arrow.png" alt="arrow" class="faq-arrow rotated">
+                        </button>
+                        <div class="faq-answer" style="max-height: 500px;">
+                            <ul class="faq-list">
+                                <li><img src="./assets/svg/water.svg" alt="icon" class="faq-icon">обучение</li>
+                                <li><img src="./assets/svg/sup.svg" alt="icon" class="faq-icon">сап</li>
+                                <li><img src="./assets/svg/jacket.svg" alt="icon" class="faq-icon">спас.жилет</li>
+                                <li><img src="./assets/svg/group.svg" alt="icon" class="faq-icon">сопровождение</li>
+                                <li><img src="./assets/svg/photo.svg" alt="icon" class="faq-icon">фото</li>
+                                <li><img src="./assets/svg/phone.svg" alt="icon" class="faq-icon">водонепроницаемый чехол</li>
+                                <li><img src="./assets/svg/water.svg" alt="icon" class="faq-icon">бутылочка воды</li>
+                            </ul>
+                        </div>
                     </div>
+
                     <div class="faq-item">
-                        <button class="faq-question">Можно ли с детьми?</button>
+                        <button class="faq-question">Можно ли с детьми?<img src="./assets/arrow.png" alt="arrow" class="faq-arrow"></button>
                         <div class="faq-answer">Да, можно! Мы рады гостям любого возраста, но дети до 14 лет допускаются только в сопровождении взрослых.</div>
                     </div>
+
                     <div class="faq-item">
-                        <button class="faq-question">Как проходит обучение?</button>
+                        <button class="faq-question">Как проходит обучение?<img src="./assets/arrow.png" alt="arrow" class="faq-arrow"></button>
                         <div class="faq-answer">Перед выходом на воду инструктор расскажет и покажет основы управления сап-бордом, правила безопасности и поможет освоиться на воде.</div>
                     </div>
+                    
                 </div>
 
                 <div class="booking-container">
@@ -405,6 +421,13 @@
         btn.addEventListener('click', function() {
             const answer = this.nextElementSibling;
             this.classList.toggle('active');
+            // стрелка
+            const arrow = this.querySelector('.faq-arrow');
+            if (this.classList.contains('active')) {
+                arrow.classList.add('rotated');
+            } else {
+                arrow.classList.remove('rotated');
+            }
             if (answer.style.maxHeight) {
                 answer.style.maxHeight = null;
             } else {
