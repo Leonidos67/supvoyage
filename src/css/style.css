@@ -711,7 +711,8 @@ body {
 }
 
 .block-info-2card {
-    background: linear-gradient(135deg, #024462, 20%, #325c04);
+    /* background: linear-gradient(135deg, #024462, 20%, #325c04);*/
+    background: rgba(255, 255, 255, 0.1);
     width: 100vh;
     flex: 1;
     box-sizing: border-box;
@@ -723,11 +724,13 @@ body {
 }
 
 .block-info:first-child {
-    background: linear-gradient(105deg, #024462, #325c04);
+    /* background: linear-gradient(105deg, #024462, #325c04);*/
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .block-info:last-child {
-    background: linear-gradient(295deg, #8d8433, 20%, #325c04);
+    /* background: linear-gradient(295deg, #8d8433, 20%, #325c04);*/
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .block-header {
@@ -1273,7 +1276,7 @@ body {
     outline: none;
     background: #fff;
     color: #222;
-    padding: 12px 20px;
+    padding: 4px 15px;
     border-radius: 999px;
     font-size: 1rem;
     font-weight: 500;
@@ -1283,14 +1286,41 @@ body {
     white-space: nowrap;
     margin: 0 4px;
 }
-.tab-pill.active, .tab-pill:focus {
+
+.tab-pill.active.tab-pill-likes, .tab-pill:focus.tab-pill-likes {
+    background: #ef0b0b;
+    color: #fff;
+}
+.tab-pill.active.tab-pill-stock, .tab-pill:focus.tab-pill-stock {
     background: #111;
     color: #fff;
 }
+.tab-pill.active.tab-pill-dawn, .tab-pill:focus.tab-pill-dawn {
+    background: #fff6d4;
+    color: #000;
+}
+.tab-pill.active.tab-pill-flow, .tab-pill:focus.tab-pill-flow {
+    background: #ead9ff;
+    color: #000;
+}
+.tab-pill.active.tab-pill-love, .tab-pill:focus.tab-pill-love {
+    background: #ffdfed;
+    color: #000;
+}
+.tab-pill.active.tab-pill-sunset, .tab-pill:focus.tab-pill-sunset {
+    background: #fff2e0;
+    color: #000;
+}
+.tab-pill.active.tab-pill-party, .tab-pill:focus.tab-pill-party {
+    background: #ffe3d6;
+    color: #000;
+}
+
 .tab-pill:hover {
     background: #222;
     color: #fff;
 }
+
 .tab-content-section {
     
 }

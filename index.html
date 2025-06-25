@@ -157,36 +157,55 @@
         </div>
 
         <!-- start content -->
-        <div style="align-items: center; padding: 20px;" id="start" class="tab-content active">
-            <h2 class="catalog-title">Выберите SUP</h2>
+        <div style="padding: 0px 20px;" id="start" class="tab-content active">
 
             <!-- Горизонтальные вкладки -->
             <div class="horizontal-tabs-wrapper">
                 <div class="horizontal-tabs" id="supTabs">
-                    <button class="tab-pill active" data-tab="sup1">SUP & Dawn</button>
-                    <button class="tab-pill" data-tab="sup2">SUP & Flow</button>
-                    <button class="tab-pill" data-tab="sup3">SUP & Love</button>
-                    <button class="tab-pill" data-tab="sup4">SUP & Sunset</button>
-                    <button class="tab-pill" data-tab="sup5">SUP & Party</button>
+                    <button class="tab-pill tab-pill-likes" data-tab="sup-likes" style="padding: 6px 8px;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.15 5C5.36914 5 3 7.0793 3 9.7798C3 11.6427 3.87235 13.2112 5.02849 14.5104C6.18066 15.8052 7.66714 16.892 9.01097 17.8016L11.3296 19.3711C11.5835 19.543 11.9165 19.543 12.1704 19.3711L14.489 17.8016C15.8329 16.892 17.3193 15.8052 18.4715 14.5104C19.6277 13.2112 20.5 11.6427 20.5 9.7798C20.5 7.0793 18.1309 5 15.35 5C13.9165 5 12.6552 5.67214 11.75 6.54183C10.8448 5.67214 9.58347 5 8.15 5Z" fill="#000000"></path>
+                        </svg>
+                    </button>
+                    <button class="tab-pill tab-pill-stock active" data-tab="sup1">Без программы</button>
+                    <button class="tab-pill tab-pill-dawn" data-tab="sup2">SUP & Dawn</button>
+                    <button class="tab-pill tab-pill-flow" data-tab="sup3">SUP & Flow</button>
+                    <button class="tab-pill tab-pill-love" data-tab="sup4">SUP & Love</button>
+                    <button class="tab-pill tab-pill-sunset" data-tab="sup5">SUP & Sunset</button>
+                    <button class="tab-pill tab-pill-party" data-tab="sup6">SUP & Party</button>
                 </div>
             </div>
 
             <!-- Контент вкладок -->
+            <div class="tab-content-section" id="sup-likes" style="display: none;">
+                <h3 class="products-title">Избранное</h3>
+            </div>
+
             <div class="tab-content-section" id="sup1" style="display: block;">
-                <p>Контент для SUP 1</p>
+                <h3 class="products-title">Сап-борд без программы</h3>
             </div>
+
             <div class="tab-content-section" id="sup2" style="display: none;">
-                <p>Контент для SUP 2</p>
+                <h3 class="products-title">Встречаем рассвет на воде</h3>
             </div>
+
             <div class="tab-content-section" id="sup3" style="display: none;">
-                <p>Контент для SUP 3</p>
+                <h3 class="products-title">Йога на воде</h3>
             </div>
+
             <div class="tab-content-section" id="sup4" style="display: none;">
-                <p>Контент для SUP 4</p>
+                <h3 class="products-title">Свидание на воде</h3>
             </div>
+
             <div class="tab-content-section" id="sup5" style="display: none;">
-                <p>Контент для SUP 5</p>
+                <h3 class="products-title">Закат вашей мечты</h3>
             </div>
+
+            <div class="tab-content-section" id="sup6" style="display: none;">
+                <h3 class="products-title">Отдыхайте вместе с друзьями</h3>
+            </div>
+
+            <div style="height: 1000px;"></div>
 
         </div>
 
