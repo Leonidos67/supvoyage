@@ -46,7 +46,8 @@
                     <div class="pulse-outer"></div>
                     <div class="pulse-outer"></div>
                     <div class="pulse-outer"></div>
-                    <button class="main-button" id="startButton">START</button>
+                    <button class="main-button" id="selfFillBtn" data-tab="start">START</button>
+                    <!--<button class="main-button" id="selfFillBtn" data-tab="start">START</button>-->
                 </div>
             </div>
             
@@ -91,6 +92,19 @@
                         <p class="balance-text">0</p>
                     </div>
 
+                </div>
+
+                <div class="service-details">
+                    <h3 class="products-title pt-empty-state">Что входит в стоимость</h3>
+                    <div class="service-path">
+                        <div class="path-item"><span>обучение</span></div>
+                        <div class="path-item right"><span>сап</span></div>
+                        <div class="path-item"><span>спас.жилет</span></div>
+                        <div class="path-item right"><span>сопровождение</span></div>
+                        <div class="path-item"><span>фото</span></div>
+                        <div class="path-item right"><span>водонепроницаемый чехол для телефона</span></div>
+                        <div class="path-item"><span>бутылочка воды/чай</span></div>
+                    </div>
                 </div>
 
                 <!--<h3 class="products-title">Мои данные</h3>-->
@@ -177,12 +191,45 @@
             </div>
 
             <!-- Контент вкладок -->
+            <!-- Sup Likes -->
             <div class="tab-content-section" id="sup-likes" style="display: none;">
                 <h3 class="products-title">Избранное</h3>
+                
+                <div class="empty-state">
+                    <img src="./assets/images/file0-Photoroom.png" alt="Ничего не найдено">
+                    <h3 class="products-title pt-empty-state">Пока что здесь пусто</h3>
+                    <p class="description-empty-state">Выберите любую позицию в меню и добавьте ее в избранное.</p>
+                </div>
             </div>
 
+            <!-- No programm -->
             <div class="tab-content-section" id="sup1" style="display: block;">
                 <h3 class="products-title">Сап-борд без программы</h3>
+
+                <div class="faq-section">
+                    <h3 class="faq-title">Краткая информация</h3>
+                    <div class="faq-item">
+                        <button class="faq-question">Что входит в стоимость?</button>
+                        <div class="faq-answer">Рекомендуем взять купальник, полотенце, головной убор и хорошее настроение!</div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">Можно ли с детьми?</button>
+                        <div class="faq-answer">Да, можно! Мы рады гостям любого возраста, но дети до 14 лет допускаются только в сопровождении взрослых.</div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">Как проходит обучение?</button>
+                        <div class="faq-answer">Перед выходом на воду инструктор расскажет и покажет основы управления сап-бордом, правила безопасности и поможет освоиться на воде.</div>
+                    </div>
+                </div>
+
+                <div class="booking-container">
+                    <a href="https://t.me/leonidsupv" target="_blank" class="button-telegram">Забронировать в Telegram</a>
+                    <button class="bookmark-btn">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8.15 5C5.36914 5 3 7.0793 3 9.7798C3 11.6427 3.87235 13.2112 5.02849 14.5104C6.18066 15.8052 7.66714 16.892 9.01097 17.8016L11.3296 19.3711C11.5835 19.543 11.9165 19.543 12.1704 19.3711L14.489 17.8016C15.8329 16.892 17.3193 15.8052 18.4715 14.5104C19.6277 13.2112 20.5 11.6427 20.5 9.7798C20.5 7.0793 18.1309 5 15.35 5C13.9165 5 12.6552 5.67214 11.75 6.54183C10.8448 5.67214 9.58347 5 8.15 5Z" fill="#000000"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
 
             <div class="tab-content-section" id="sup2" style="display: none;">
@@ -205,7 +252,7 @@
                 <h3 class="products-title">Отдыхайте вместе с друзьями</h3>
             </div>
 
-            <div style="height: 1000px;"></div>
+            <div style="height: 130px;"></div>
 
         </div>
 
@@ -264,7 +311,7 @@
             <!-- menu -->
             <div class="profile-header bc-first-slide">
 
-                <!--onclick="window.location.href='./err/'"-->
+                <!--onclick="window.location.href='./err/'"
                 <div class="profile-info">
                     <div class="profile-text">
                         <div class="name-edit-wrapper">
@@ -287,7 +334,6 @@
                     </div>
                 </div>
 
-                <!--onclick="window.location.href='./err/'"-->
                 <div class="profile-info">
                     <div class="profile-text">
                         <div class="name-edit-wrapper">
@@ -297,13 +343,13 @@
                     <div class="profile-icon">
                         <img src="./assets/promocode.png" width="24px" height="24px" alt="Уведомления">
                     </div>
-                </div>
+                </div>-->
             
             </div>
 
             <!-- version -->
             <div>
-                <p class="text-version">v1.1.6</p>
+                <p class="text-version">v1.1.8</p>
             </div>
 
             <div style="margin-top: 70px;"></div>
@@ -312,7 +358,7 @@
 
     </div>
 
-    <!-- Модальное окно -->
+    <!-- Модальное окно 
     <div class="modal-overlay" id="startModal">
         <div class="modal-content">
             <h3 class="modal-title">Бронь сапа</h3>
@@ -326,7 +372,7 @@
                 <button class="modal-btn close-btn" id="closeModalBtn">Отменить</button>
             </div>
         </div>
-    </div>
+    </div>-->
 
     <!-- Нижнее меню -->
     <nav class="bottom-menu">
@@ -352,6 +398,21 @@
     <script src="./src/js/ProductList.js"></script>
     <script src="./src/js/booking.js"></script>
     <script src="./src/js/startContent.js"></script>
+    <script>
+    // FAQ accordion logic
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const answer = this.nextElementSibling;
+            this.classList.toggle('active');
+            if (answer.style.maxHeight) {
+                answer.style.maxHeight = null;
+            } else {
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+        });
+    });
+    </script>
 
 </body>
 </html>

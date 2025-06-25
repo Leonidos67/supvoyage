@@ -1,5 +1,5 @@
 
-// JS для переключения вкладок
+// JS для переключения вкладок в разделе start
 document.addEventListener('DOMContentLoaded', function() {
     const tabButtons = document.querySelectorAll('.tab-pill');
     const tabContents = document.querySelectorAll('.tab-content-section');

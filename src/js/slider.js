@@ -1,64 +1,42 @@
-
-
 document.addEventListener('DOMContentLoaded', function() {
     const menuItems = document.querySelectorAll('.menu-item');
     const tabContents = document.querySelectorAll('.tab-content');
-    const startButton = document.getElementById('startButton');
-    const supForm = document.getElementById('supForm');
-    const startModal = document.getElementById('startModal');
     const selfFillBtn = document.getElementById('selfFillBtn');
-    const helpFillBtn = document.getElementById('helpFillBtn');
-    const closeModalBtn = document.getElementById('closeModalBtn');
 
     // Функция переключения вкладок
     function switchTab(tabId) {
+        // Убираем active со всех вкладок и контента
         menuItems.forEach(i => i.classList.remove('active'));
         tabContents.forEach(tab => tab.classList.remove('active'));
         
+        // Добавляем active нужным
         const menuItem = document.querySelector(`.menu-item[data-tab="${tabId}"]`);
-        if (menuItem) menuItem.classList.add('active');
-        document.getElementById(tabId).classList.add('active');
+        if (menuItem) {
+            menuItem.classList.add('active');
+        }
+        
+        const tabContent = document.getElementById(tabId);
+        if (tabContent) {
+            tabContent.classList.add('active');
+        }
     }
 
-    // Функция закрытия модального окна
-    function closeModal() {
-        startModal.classList.remove('active');
-    }
-
-    // Переключение вкладок через меню
+    // Переключение вкладок через нижнее меню
     menuItems.forEach(item => {
         item.addEventListener('click', function(e) {
             e.preventDefault();
-            switchTab(this.getAttribute('data-tab'));
+            const tabId = this.getAttribute('data-tab');
+            switchTab(tabId);
         });
     });
 
-    // Открытие модального окна при клике на START
-    startButton.addEventListener('click', function() {
-        startModal.classList.add('active');
-    });
-
-    // Закрытие модального окна
-    closeModalBtn.addEventListener('click', closeModal);
-
-    // Закрытие при клике вне модального окна
-    startModal.addEventListener('click', function(e) {
-        if (e.target === this) {
-            closeModal();
-        }
-    });
-
-    // Выбор "Заполню поля сам"
-    selfFillBtn.addEventListener('click', function() {
-        closeModal();
-        switchTab(this.getAttribute('data-tab'));
-    });
-    
-    // Выбор "Помощь менеджера в Telegram"
-    helpFillBtn.addEventListener('click', function() {
-        closeModal();
-        window.open('https://t.me/leonidsupv', '_blank');
-    });
+    // Нажатие на кнопку START на главной
+    if (selfFillBtn) {
+        selfFillBtn.addEventListener('click', function() {
+            const tabId = this.getAttribute('data-tab');
+            switchTab(tabId);
+        });
+    }
 });
 
 document.addEventListener('DOMContentLoaded', function() {
