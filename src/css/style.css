@@ -1276,7 +1276,7 @@ body {
     outline: none;
     background: #fff;
     color: #222;
-    padding: 4px 15px;
+    padding: 8px 12px;
     border-radius: 999px;
     font-size: 1rem;
     font-weight: 500;
@@ -1293,6 +1293,10 @@ body {
 }
 .tab-pill.active.tab-pill-stock, .tab-pill:focus.tab-pill-stock {
     background: #e0e4ff;
+    color: #000;
+}
+.tab-pill.active.tab-pill-events, .tab-pill:focus.tab-pill-events {
+    background: #d6efc6;
     color: #000;
 }
 .tab-pill.active.tab-pill-dawn, .tab-pill:focus.tab-pill-dawn {
@@ -1312,7 +1316,7 @@ body {
     color: #000;
 }
 .tab-pill.active.tab-pill-party, .tab-pill:focus.tab-pill-party {
-    background: #ffe3d6;
+    background: #ffc8af;
     color: #000;
 }
 
@@ -1491,7 +1495,7 @@ body {
 
 /* FAQ Section Styles */
 .faq-section {
-    margin: 32px 0 0 0;
+    margin: 0;
     padding: 18px 0 0 0;
     border-top: 1px solid rgba(255,255,255,0.08);
 }
