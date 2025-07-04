@@ -20,7 +20,7 @@
     <div class="app-content">
 
         <!-- home content -->
-        <div style="align-items: center;" id="home" class="tab-content">
+        <div style="align-items: center;" id="home" class="tab-content active">
             
             <h2>Главная</h2>
 
@@ -58,29 +58,27 @@
             
                 <div class="container-information-first-block">
                     
-                    <div class="block-info" style="margin-right: 10px;">
+                    <div class="block-info" style="margin-right: 10px; cursor: pointer;" onclick="window.open('https://t.me/leonidsupv', '_blank')">
                         <div class="block-header block-info-cashback">
-                            <h4>Кэшбек</h4>
-                            <!--<span class="arrow-icon">
+                            <h4>Связаться</h4>
+                            <span class="arrow-icon">
                                 <img class="arrow-icon-img" src="./assets/arrow-white.png" alt="">
-                            </span>-->
+                            </span>
                         </div>
-                        <p class="balance-text">0</p>
                     </div>
 
-                    <div class="block-info block-info-bonus">
+                    <div class="block-info block-info-bonus" style="cursor: pointer;" onclick="window.open('https://t.me/sup_voyage', '_blank')">
                         <div class="block-header">
-                            <h4>Бонусы</h4>
-                            <!--<span class="arrow-icon">
+                            <h4>Канал</h4>
+                            <span class="arrow-icon">
                                 <img class="arrow-icon-img" src="./assets/arrow-white.png" alt="">
-                            </span>-->
+                            </span>
                         </div>
-                        <p class="balance-text">0</p>
                     </div>
 
                 </div>
             
-                <div class="container-information-second-block">
+                <!--<div class="container-information-second-block">
                     
                     <div class="block-info-2card">
                         <div class="block-header block-info-cashback">
@@ -92,7 +90,7 @@
                         <p class="balance-text">0</p>
                     </div>
 
-                </div>
+                </div>-->
 
                 <div class="service-details">
                     <h3 class="products-title pt-empty-state">Что входит в стоимость</h3>
@@ -171,7 +169,7 @@
         </div>
 
         <!-- start content -->
-        <div style="padding: 0px 20px;" id="start" class="tab-content active">
+        <div style="padding: 0px 20px;" id="start" class="tab-content">
 
             <!-- Горизонтальные вкладки -->
             <div class="horizontal-tabs-wrapper">
@@ -511,15 +509,15 @@
 
     <!-- Нижнее меню -->
     <nav class="bottom-menu">
-        <a href="#" class="menu-item" data-tab="home">
+        <a href="#" class="menu-item active" data-tab="home">
             <i class="fas fa-home"></i>
             <span>home</span>
         </a>
-        <a href="#" class="menu-item active" data-tab="start">
+        <a href="#" class="menu-item " data-tab="start">
             <i class="fas fa-play bc-menu-icon"></i>
             <span>start</span>
         </a>
-        <a href="#" class="menu-item" data-tab="menu">
+        <a href="#" class="menu-item " data-tab="menu">
             <i class="fa-solid fa-bars"></i>
             <span>menu</span>
         </a>
