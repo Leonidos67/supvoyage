@@ -172,7 +172,7 @@
         <div style="padding: 0px 20px;" id="start" class="tab-content">
 
             <!-- Горизонтальные вкладки -->
-            <div class="horizontal-tabs-wrapper">
+            <div class="horizontal-tabs-wrapper" id="highlightTabsWrapper">
                 <div class="horizontal-tabs" id="supTabs">
                     <!--
                     <button class="tab-pill tab-pill-likes" data-tab="sup-likes" style="padding: 4px 8px;">
@@ -491,22 +491,6 @@
 
     </div>
 
-    <!-- Модальное окно 
-    <div class="modal-overlay" id="startModal">
-        <div class="modal-content">
-            <h3 class="modal-title">Бронь сапа</h3>
-            <p style="margin-bottom: 20px">Вы можете заполнить форму, внести предоплату и уже через час получить сап</p>
-            <div class="modal-buttons">
-                <button class="modal-btn" id="selfFillBtn" data-tab="start">Заполню поля сам</button>
-                <button class="modal-btn" id="helpFillBtn">Нужна помощь в бронировании</button>
-                <script>
-                    
-                </script>
-                <button class="modal-btn close-btn" id="closeModalBtn">Отменить</button>
-            </div>
-        </div>
-    </div>-->
-
     <!-- Нижнее меню -->
     <nav class="bottom-menu">
         <a href="#" class="menu-item active" data-tab="home">
@@ -552,7 +536,80 @@
             }
         });
     });
+
+    function setStartTabHighlight(isActive) {
+        const tabsWrapper = document.getElementById('highlightTabsWrapper');
+        const swipeModal = document.getElementById('swipeModal');
+        if (tabsWrapper && swipeModal) {
+            if (isActive) {
+                tabsWrapper.classList.add('highlighted');
+                swipeModal.style.display = 'flex';
+                document.body.classList.add('modal-swipe-active');
+            } else {
+                tabsWrapper.classList.remove('highlighted');
+                swipeModal.style.display = 'none';
+                document.body.classList.remove('modal-swipe-active');
+            }
+        }
+    }
+
+    // Пример для вашего переключателя вкладок:
+    const menuItems = document.querySelectorAll('.menu-item');
+    menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const tab = this.getAttribute('data-tab');
+            setStartTabHighlight(tab === 'start');
+        });
+    });
+
+    // При загрузке страницы (если start активен по умолчанию)
+    document.addEventListener('DOMContentLoaded', function() {
+        const activeTab = document.querySelector('.menu-item.active');
+        if (activeTab && activeTab.getAttribute('data-tab') === 'start') {
+            setStartTabHighlight(true);
+        }
+    });
+
+    // Кнопка закрытия модального окна
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeBtn = document.getElementById('closeSwipeModal');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function() {
+                setStartTabHighlight(false);
+                // Сохраняем дату закрытия в localStorage
+                localStorage.setItem('swipeModalLastClosed', Date.now().toString());
+            });
+        }
+    });
+
+    // Показывать модальное окно только раз в 10 дней
+    function shouldShowSwipeModal() {
+        const lastClosed = localStorage.getItem('swipeModalLastClosed');
+        if (!lastClosed) return true;
+        const TEN_DAYS = 10 * 24 * 60 * 60 * 1000;
+        return (Date.now() - parseInt(lastClosed, 10)) > TEN_DAYS;
+    }
+
+    // Модифицируем setStartTabHighlight для проверки
+    const originalSetStartTabHighlight = setStartTabHighlight;
+    setStartTabHighlight = function(isActive) {
+        if (isActive && !shouldShowSwipeModal()) {
+            // Не показываем окно и не выделяем/затемняем вкладки
+            const tabsWrapper = document.getElementById('highlightTabsWrapper');
+            if (tabsWrapper) tabsWrapper.classList.remove('highlighted');
+            document.body.classList.remove('modal-swipe-active');
+            document.getElementById('swipeModal').style.display = 'none';
+            return;
+        }
+        originalSetStartTabHighlight(isActive);
+    }
     </script>
 
+    <div id="swipeModal" class="swipe-modal" style="display: none;">
+        <div class="swipe-modal-content">
+            <button class="swipe-modal-close" id="closeSwipeModal">×</button>
+            <div class="swipe-modal-text">Здесь расположены наши направления</div>
+        </div>
+    </div>
 </body>
 </html>
