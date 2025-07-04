@@ -1577,3 +1577,69 @@ body {
 }
 
 /**/
+/* Затемнение фона при активном модальном окне */
+body.modal-swipe-active::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+    pointer-events: auto;
+}
+
+/* Выделение блока вкладок */
+.horizontal-tabs-wrapper.highlighted {
+    position: relative;
+    z-index: 1002;
+    box-shadow: 0 0 0 4px #000, 0 0 16px 4px #fff;
+    border-radius: 14px;
+    transition: box-shadow 0.2s;
+}
+
+/* Модальное окно-подсказка */
+.swipe-modal {
+    position: fixed;
+    left: 50%;
+    top: 90px;
+    transform: translateX(-50%);
+    z-index: 1100;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: none;
+    width: 100vw;
+    height: auto;
+    pointer-events: auto;
+}
+.swipe-modal-content {
+    background: #fff;
+    color: #111;
+    border-radius: 16px;
+    padding: 10px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+    min-width: 280px;
+    max-width: 90vw;
+    text-align: center;
+    position: relative;
+    z-index: 1101;
+    pointer-events: auto;
+}
+.swipe-modal-text {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+.swipe-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #111;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    z-index: 1102;
+}
+/**/
